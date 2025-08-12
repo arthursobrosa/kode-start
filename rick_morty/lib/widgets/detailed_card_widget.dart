@@ -8,9 +8,9 @@ import 'package:rick_morty/widgets/status_circle_widget.dart';
 
 class DetailedCardWidget extends StatelessWidget {
   const DetailedCardWidget({
-    super.key,
+    super.key, 
     required this.character,
-    required this.episode,
+    required this.episode
   });
 
   final CharacterModel character;
@@ -28,7 +28,7 @@ class DetailedCardWidget extends StatelessWidget {
     map.forEach((key, value) {
       Widget keyWidget = Padding(
         padding: const EdgeInsets.only(top: 15),
-        child: Text(key, style: TextType.subDescription.textSyle,),
+        child: Text(key, style: TextType.subDescription.textSyle),
       );
 
       Widget valueWidget = Padding(
@@ -54,10 +54,10 @@ class DetailedCardWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Image.network(
-              character.imagePath, 
+              character.imagePath,
               filterQuality: FilterQuality.high,
-              fit: BoxFit.cover, 
-              height: 160
+              fit: BoxFit.cover,
+              height: 160,
             ),
             Container(
               color: AppColors.cardFooterColor,

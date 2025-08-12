@@ -24,20 +24,21 @@ class _HomePageState extends State<HomePage> {
   List<CharacterModel> characters = [];
   bool isLoading = false;
   bool isConnecting = true;
-  late final int numberOfPages;
+  late int numberOfPages;
   int page = 1;
   final ScrollController _scrollController = ScrollController();
   bool _isAppBarCollapsed = false;
-  String text = "";
+  String text = '';
+  (String, dynamic)? queryParameterTuple;
 
   @override
   void initState() {
-    _init();
+    fetch();
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        fetchCharacters();
+        fetch();
       }
     });
 
@@ -59,9 +60,10 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  Future<void> _init() async {
+  Future<void> fetch() async {
     await setNumberOfPages();
     await fetchCharacters();
+
     setState(() {
       isConnecting = false;
     });
@@ -70,6 +72,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> setNumberOfPages() async {
     final paginatedCharacters = await Repository.getPaginatedCharacters(
       page: 1,
+      property: queryParameterTuple,
     );
 
     numberOfPages = paginatedCharacters.numberOfPages;
@@ -91,6 +94,7 @@ class _HomePageState extends State<HomePage> {
 
     final paginatedCharacters = await Repository.getPaginatedCharacters(
       page: page,
+      property: queryParameterTuple,
     );
 
     setState(() {
@@ -110,11 +114,7 @@ class _HomePageState extends State<HomePage> {
       page = 1;
     });
 
-    await fetchCharacters();
-
-    setState(() {
-      isConnecting = false;
-    });
+    await fetch();
   }
 
   void onChanged(String text) {
@@ -123,6 +123,8 @@ class _HomePageState extends State<HomePage> {
 
   void onEditingComplete() {
     FocusScope.of(context).unfocus();
+    queryParameterTuple = (CharacterPropertyType.name.queryParameterName, text);
+    _refresh();
   }
 
   @override

@@ -23,7 +23,6 @@ class CharacterModel {
   final String origin;
   final String lastKnownLocation;
   final int? firstEpisodeId;
-  String firstSeenIn = '';
   final String imagePath;
 
   CharacterModel({

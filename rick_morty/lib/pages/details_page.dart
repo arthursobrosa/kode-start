@@ -5,9 +5,9 @@ import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/models/episode_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/detailed_card_widget.dart';
-import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/app_title_widget.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -28,7 +28,7 @@ class DetailsPageState extends State<DetailsPage> {
   void initState() {
     int? firstEpisodeId = widget.character.firstEpisodeId;
     episodeFuture = firstEpisodeId != null
-        ? Repository.getEpisode(firstEpisodeId!)
+        ? Repository.getEpisode(firstEpisodeId)
         : Future.value(null);
 
     super.initState();
