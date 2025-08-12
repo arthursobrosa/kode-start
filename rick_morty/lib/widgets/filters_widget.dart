@@ -67,7 +67,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Filters', style: TextType.title.textSyle),
+          Text('Filters', style: TextType.boldTitle.textSyle),
           SizedBox(height: 20),
           getFiltersRow(),
         ],
@@ -90,7 +90,7 @@ class FilterWidget extends StatelessWidget {
         color: isSelected ? AppColors.primaryColor : AppColors.backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(text, style: TextType.description.textSyle),
+      child: Text(text, style: TextType.bodyRegular.textSyle),
     );
   }
 }

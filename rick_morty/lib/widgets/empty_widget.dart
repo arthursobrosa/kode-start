@@ -18,7 +18,7 @@ class EmptyWidget extends StatelessWidget {
           children: [
             Text(
               text ?? 'Unknown error',
-              style: TextType.appTitle.textSyle,
+              style: TextType.spacedTitle.textSyle,
               textAlign: TextAlign.center,
               maxLines: null,
               overflow: TextOverflow.visible,
@@ -39,7 +39,7 @@ class EmptyWidget extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primaryColor,
               ),
-              child: Text('Refresh', style: TextType.button.textSyle),
+              child: Text('Refresh', style: TextType.buttonText.textSyle),
             ),
           ],
         ),

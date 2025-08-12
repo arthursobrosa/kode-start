@@ -47,7 +47,7 @@ class TextFieldWidget extends StatelessWidget {
                     child: TextField(
                       controller: controller,
                       focusNode: focusNode,
-                      style: TextType.textField.textSyle,
+                      style: TextType.inputText.textSyle,
                       onChanged: onChanged,
                       onEditingComplete: onEditingComplete,
                       onSubmitted: (value) => Void,
@@ -65,7 +65,7 @@ class TextFieldWidget extends StatelessWidget {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Search...',
-                        hintStyle: TextType.textFieldHint.textSyle,
+                        hintStyle: TextType.inputPlaceholder.textSyle,
                       ),
                     ),
                   ),

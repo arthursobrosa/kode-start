@@ -6,6 +6,6 @@ class AppTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('RICK AND MORTY API', style: TextType.appTitle.textSyle);
+    return Text('RICK AND MORTY API', style: TextType.spacedTitle.textSyle);
   }
 }

@@ -54,7 +54,7 @@ class CharacterCardWidget extends StatelessWidget {
                   ),
                   child: Text(
                     character.name.toUpperCase(),
-                    style: TextType.title.textSyle,
+                    style: TextType.boldTitle.textSyle,
                   ),
                 ),
               ),

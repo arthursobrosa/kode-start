@@ -41,7 +41,7 @@ class DetailsPageState extends State<DetailsPage> {
           endDrawer: DrawerWidget(
             items: [
               ListTile(
-                title: Text('Item 1', style: TextType.appTitle.textSyle),
+                title: Text('Item 1', style: TextType.spacedTitle.textSyle),
                 onTap: () => Void,
               ),
             ],

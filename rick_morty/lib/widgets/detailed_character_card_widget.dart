@@ -28,12 +28,12 @@ class DetailedCharacterCardWidget extends StatelessWidget {
     map.forEach((key, value) {
       Widget keyWidget = Padding(
         padding: const EdgeInsets.only(top: 15),
-        child: Text(key, style: TextType.subDescription.textSyle),
+        child: Text(key, style: TextType.bodySmall.textSyle),
       );
 
       Widget valueWidget = Padding(
         padding: const EdgeInsets.only(top: 4),
-        child: Text(value, style: TextType.description.textSyle),
+        child: Text(value, style: TextType.bodyRegular.textSyle),
       );
 
       children.add(keyWidget);
@@ -70,7 +70,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 12),
                       child: Text(
                         character.name.toUpperCase(),
-                        style: TextType.title.textSyle,
+                        style: TextType.boldTitle.textSyle,
                       ),
                     ),
                     Padding(
@@ -87,7 +87,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8),
                             child: Text(
                               '${character.status.capitalize()} - ${character.species}',
-                              style: TextType.description.textSyle,
+                              style: TextType.bodyRegular.textSyle,
                             ),
                           ),
                         ],

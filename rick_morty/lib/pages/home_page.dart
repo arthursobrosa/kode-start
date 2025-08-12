@@ -198,8 +198,8 @@ class _HomePageState extends State<HomePage> {
                 title: Text(
                   drawerOption,
                   style: isSelected
-                      ? TextType.selected.textSyle
-                      : TextType.appTitle.textSyle,
+                      ? TextType.highlighted.textSyle
+                      : TextType.spacedTitle.textSyle,
                 ),
                 onTap: () {
                   _viewModel.updateSelectedDrawer(index);
@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> {
           endDrawer: DrawerWidget(
             items: [
               ListTile(
-                title: Text('Item 1', style: TextType.appTitle.textSyle),
+                title: Text('Item 1', style: TextType.spacedTitle.textSyle),
                 onTap: () => Void,
               ),
             ],

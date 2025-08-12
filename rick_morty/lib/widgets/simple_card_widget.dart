@@ -57,7 +57,7 @@ class SimpleCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${item.name}',
-                  style: TextType.title.textSyle,
+                  style: TextType.boldTitle.textSyle,
                   textAlign: TextAlign.center,
                 ),
               ),

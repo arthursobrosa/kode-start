@@ -3,64 +3,64 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 
 enum TextType {
-  appTitle,
-  title,
-  description,
-  subDescription,
-  textField,
-  textFieldHint,
-  button,
-  selected,
+  spacedTitle,
+  boldTitle,
+  bodyRegular,
+  bodySmall,
+  inputText,
+  inputPlaceholder,
+  buttonText,
+  highlighted,
 }
 
 extension TextTypeProperties on TextType {
   double get fontSize {
     switch (this) {
-      case TextType.appTitle:
+      case TextType.spacedTitle:
         return 14.5;
-      case TextType.title:
+      case TextType.boldTitle:
         return 14.5;
-      case TextType.description:
+      case TextType.bodyRegular:
         return 12.5;
-      case TextType.subDescription:
+      case TextType.bodySmall:
         return 12.5;
-      case TextType.textField:
+      case TextType.inputText:
         return 12.5;
-      case TextType.textFieldHint:
+      case TextType.inputPlaceholder:
         return 12.5;
-      case TextType.button:
+      case TextType.buttonText:
         return 14.5;
-      case TextType.selected:
+      case TextType.highlighted:
         return 18;
     }
   }
 
   FontWeight get fontWeight {
     switch (this) {
-      case TextType.appTitle:
+      case TextType.spacedTitle:
         return FontWeight.w400; // regular
-      case TextType.title:
+      case TextType.boldTitle:
         return FontWeight.w900; // black
-      case TextType.description:
+      case TextType.bodyRegular:
         return FontWeight.w500; // medium
-      case TextType.subDescription:
+      case TextType.bodySmall:
         return FontWeight.w300; // light
-      case TextType.textField:
+      case TextType.inputText:
         return FontWeight.w800; // bold
-      case TextType.textFieldHint:
+      case TextType.inputPlaceholder:
         return FontWeight.w300; // light
-      case TextType.button:
+      case TextType.buttonText:
         return FontWeight.w800; // bold
-      case TextType.selected:
+      case TextType.highlighted:
         return FontWeight.w800; // bold
     }
   }
 
   double get letterSpacing {
     switch (this) {
-      case TextType.appTitle:
+      case TextType.spacedTitle:
         return fontSize * 0.165;
-      case TextType.selected:
+      case TextType.highlighted:
         return fontSize * 0.165;
       default:
         return 0;
@@ -69,7 +69,7 @@ extension TextTypeProperties on TextType {
 
   Color get color {
     switch (this) {
-      case TextType.selected:
+      case TextType.highlighted:
         return AppColors.primaryColor;
       default:
         return AppColors.labelColor;
