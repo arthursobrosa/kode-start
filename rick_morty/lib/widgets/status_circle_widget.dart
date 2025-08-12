@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 enum StatusType {
   alive,
   dead,
-  unkown;
+  unknown;
 
   static StatusType fromString(String value) {
     switch (value.toLowerCase()) {
@@ -12,9 +12,9 @@ enum StatusType {
       case 'dead':
         return StatusType.dead;
       case 'unkown':
-        return StatusType.unkown;
+        return StatusType.unknown;
       default:
-        return StatusType.unkown;
+        return StatusType.unknown;
     }
   }
 
@@ -24,7 +24,7 @@ enum StatusType {
         return Colors.green;
       case StatusType.dead:
         return Colors.red;
-      case StatusType.unkown:
+      case StatusType.unknown:
         return Colors.grey;
     }
   }
