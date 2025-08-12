@@ -16,12 +16,60 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<PaginatedCharacters>? characters;
+  List<CharacterModel> characters = [];
+  bool isLoading = false;
+  late final int numberOfPages;
+  int page = 1;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
-    characters = Repository.getPaginatedCharacters();
+    _init();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        fetchCharacters();
+      }
+    });
+
     super.initState();
+  }
+
+  Future<void> _init() async {
+    await setNumberOfPages();
+    await fetchCharacters();
+  }
+
+  Future<void> setNumberOfPages() async {
+    final paginatedCharacters = await Repository.getPaginatedCharacters(
+      page: 1,
+    );
+
+    numberOfPages = paginatedCharacters.numberOfPages;
+  }
+
+  Future<void> fetchCharacters() async {
+    if (page >= numberOfPages) {
+      isLoading = false;
+      return;
+    }
+
+    if (isLoading) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final paginatedCharacters = await Repository.getPaginatedCharacters(
+      page: page,
+    );
+
+    setState(() {
+      characters.addAll(paginatedCharacters.results);
+      page++;
+      isLoading = false;
+    });
   }
 
   @override
@@ -29,36 +77,43 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBarWidget(isDetailsPage: false, onTapLeftIcon: () => Void),
-      body: FutureBuilder(
-        future: characters,
-        builder: (context, AsyncSnapshot<PaginatedCharacters> snapshot) {
-          if (snapshot.hasData) {
-            final dataResults = snapshot.data!.results;
+      body: ListView.builder(
+        controller: _scrollController,
+        itemCount: characters.length + 1,
+        itemBuilder: (context, index) {
+          if (index == characters.length) {
+            if (isLoading) {
+              return Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: Center(child: CircularProgressIndicator()),
+              );
+            }
 
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                return HomeCardWidget(
-                  character: dataResults[index],
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      DetailsPage.routeId,
-                      arguments: {
-                        'characterId': dataResults[index].id,
-                        'episodeId': dataResults[index].firstEpisodeId
-                      }
-                    );
-                  },
-                );
-              },
-              itemCount: dataResults.length,
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            return SizedBox.shrink();
           }
+
+          final character = characters[index];
+
+          return HomeCardWidget(
+            character: character,
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                DetailsPage.routeId,
+                arguments: {
+                  'characterId': character.id,
+                  'episodeId': character.firstEpisodeId,
+                },
+              );
+            },
+          );
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }
