@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/app_image_paths.dart';
 
 class SliverAppBarWidget extends StatelessWidget {

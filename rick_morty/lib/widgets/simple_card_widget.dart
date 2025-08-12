@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
-import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 
 class SimpleCardWidget extends StatelessWidget {
