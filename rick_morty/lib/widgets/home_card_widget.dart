@@ -26,6 +26,7 @@ class HomeCardWidget extends StatelessWidget {
             children: [
               Image.network(
                 character.imagePath,
+                filterQuality: FilterQuality.high,
                 fit: BoxFit.cover,
                 height: 160,
                 width: double.infinity,

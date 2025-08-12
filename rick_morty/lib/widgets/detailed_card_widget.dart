@@ -53,7 +53,12 @@ class DetailedCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.network(character.imagePath, fit: BoxFit.cover, height: 160),
+            Image.network(
+              character.imagePath, 
+              filterQuality: FilterQuality.high,
+              fit: BoxFit.cover, 
+              height: 160
+            ),
             Container(
               color: AppColors.cardFooterColor,
               child: Padding(
