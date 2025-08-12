@@ -1,13 +1,18 @@
 class PaginatedCharacters {
   final List<CharacterModel> results;
+  final int numberOfPages;
 
-  PaginatedCharacters({required this.results});
+  PaginatedCharacters({
+    required this.results,
+    required this.numberOfPages
+  });
 
   factory PaginatedCharacters.fromJson(Map<String, dynamic> json) {
     return PaginatedCharacters(
       results: List.from(
         json['results'],
       ).map((element) => CharacterModel.fromJson(element)).toList(),
+      numberOfPages: json['info']['pages']
     );
   }
 }

@@ -7,8 +7,12 @@ abstract class Repository {
     BaseOptions(baseUrl: 'https://rickandmortyapi.com/api'),
   );
 
-  static Future<PaginatedCharacters> getPaginatedCharacters() async {
-    var response = await _dio.get('/character');
+  static Future<PaginatedCharacters> getPaginatedCharacters({required int page}) async {
+    var response = await _dio.get(
+      '/character',
+      queryParameters: {'page': page},
+    );
+
     return PaginatedCharacters.fromJson(response.data);
   }
 
