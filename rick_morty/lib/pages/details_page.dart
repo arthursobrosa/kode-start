@@ -10,31 +10,23 @@ import 'package:rick_morty/widgets/shimmer_widget.dart';
 class DetailsPage extends StatefulWidget {
   static const routeId = '/details';
 
-  const DetailsPage({
-    super.key,
-    required this.characterId,
-    required this.episodeId,
-  });
+  const DetailsPage({super.key, required this.character});
 
-  final int characterId;
-  final int? episodeId;
+  final CharacterModel character;
 
   @override
   State<DetailsPage> createState() => DetailsPageState();
 }
 
 class DetailsPageState extends State<DetailsPage> {
-  late Future<List<dynamic>> combinedFuture;
+  late Future<EpisodeModel?> episodeFuture;
 
   @override
   void initState() {
-    final characterFuture = Repository.getCharacter(widget.characterId);
-
-    final episodeFuture = widget.episodeId != null
-        ? Repository.getEpisode(widget.episodeId!)
+    int? firstEpisodeId = widget.character.firstEpisodeId;
+    episodeFuture = firstEpisodeId != null
+        ? Repository.getEpisode(firstEpisodeId!)
         : Future.value(null);
-
-    combinedFuture = Future.wait([characterFuture, episodeFuture]);
 
     super.initState();
   }
@@ -50,27 +42,18 @@ class DetailsPageState extends State<DetailsPage> {
         },
       ),
       body: FutureBuilder(
-        future: combinedFuture,
-        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        future: episodeFuture,
+        builder: (context, AsyncSnapshot<EpisodeModel?> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Padding(
-              padding: EdgeInsets.only(
-                top: 17,
-                left: 20,
-                right: 20
-              ),
-              child: ShimmerWidget.rectangular(
-                height: 500,
-                borderRadius: 10,
-              ),
+              padding: EdgeInsets.only(top: 17, left: 20, right: 20),
+              child: ShimmerWidget.rectangular(height: 500, borderRadius: 10),
             );
           } else if (snapshot.hasError) {
             return Center(child: Text('Erro: ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            final character = snapshot.data![0] as CharacterModel;
-            final episode = snapshot.data![1] as EpisodeModel?;
-
-            return DetailedCardWidget(character: character, episode: episode);
+            final episode = snapshot.data! as EpisodeModel?;
+            return DetailedCardWidget(character: widget.character, episode: episode);
           } else {
             return Center(child: Text('Nenhum dado encontrado'));
           }

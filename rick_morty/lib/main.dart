@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/pages/home_page.dart';
 
@@ -21,16 +22,12 @@ class MyApp extends StatelessWidget {
               builder: (context) => HomePage(),
             );
           case DetailsPage.routeId:
-            Map<String, dynamic> map =
-                routeSettings.arguments as Map<String, dynamic>;
-
-            int characterId = map['characterId'] as int;
-            int? episodeId = map['episodeId'] as int?;
+            CharacterModel character = routeSettings.arguments as CharacterModel;
 
             return MaterialPageRoute(
               settings: routeSettings,
               builder: (context) =>
-                  DetailsPage(characterId: characterId, episodeId: episodeId),
+                  DetailsPage(character: character),
             );
           default:
             return null;
