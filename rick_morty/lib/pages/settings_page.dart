@@ -16,7 +16,7 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _isToggled = true;
+  bool _isToggled = AppTheme.themeNotifier.value == ThemeMode.dark;
 
   void _setTheme() {
     AppTheme.setTheme(_isToggled);
