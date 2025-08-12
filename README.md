@@ -59,6 +59,7 @@ Caso não haja resultados para a pesquisa, o usuário recebe uma empty view:
 
 
 <br>
+<br>
 
 
 - **Menu Lateral**: ao clicar no menu lateral na parte superior esquerda da Home, o usuário pode escolher entre três listas a serem visualizadas:
