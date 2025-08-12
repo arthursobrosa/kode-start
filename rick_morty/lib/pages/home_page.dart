@@ -80,9 +80,8 @@ class _HomePageState extends State<HomePage> {
     try {
       await _viewModel.fetch();
     } on ApiException catch (error) {
-      if (kDebugMode) {
-        print(error);
-      }
+      // ignore: avoid_print
+      print(error);
 
       _viewModel.setError(error);
 

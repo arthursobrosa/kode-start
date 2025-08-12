@@ -40,9 +40,8 @@ class DetailsViewModel {
 
         detailsData.value = detailsData.value.copyWith(episode: fetchedEpisode);
       } on ApiException catch (error) {
-        if (kDebugMode) {
-          print(error);
-        }
+        // ignore: avoid_print
+        print(error);
       }
     }
 
