@@ -2,17 +2,14 @@ class PaginatedCharacters {
   final List<CharacterModel> results;
   final int numberOfPages;
 
-  PaginatedCharacters({
-    required this.results,
-    required this.numberOfPages
-  });
+  PaginatedCharacters({required this.results, required this.numberOfPages});
 
   factory PaginatedCharacters.fromJson(Map<String, dynamic> json) {
     return PaginatedCharacters(
       results: List.from(
         json['results'],
       ).map((element) => CharacterModel.fromJson(element)).toList(),
-      numberOfPages: json['info']['pages']
+      numberOfPages: json['info']['pages'],
     );
   }
 }
@@ -26,6 +23,7 @@ class CharacterModel {
   final String origin;
   final String lastKnownLocation;
   final int? firstEpisodeId;
+  String firstSeenIn = '';
   final String imagePath;
 
   CharacterModel({
@@ -69,5 +67,27 @@ class CharacterModel {
     String episodeIdString = urlParts.last;
 
     return int.tryParse(episodeIdString);
+  }
+}
+
+enum CharacterPropertyType {
+  name,
+  status,
+  species,
+  gender
+}
+
+extension CharacterPropertyTypeExtension on CharacterPropertyType {
+  String get queryParameterName {
+    switch (this) {
+      case CharacterPropertyType.name:
+        return 'name';
+      case CharacterPropertyType.status:
+        return 'status';
+      case CharacterPropertyType.species:
+        return 'species';
+      case CharacterPropertyType.gender:
+        return 'gender';
+    }
   }
 }
