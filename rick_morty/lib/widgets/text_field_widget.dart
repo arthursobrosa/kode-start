@@ -7,13 +7,15 @@ import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 
 class TextFieldWidget extends StatelessWidget {
   TextFieldWidget({
-    super.key, 
+    super.key,
     required this.onChanged,
-    required this.onEditingComplete
+    required this.onEditingComplete,
+    required this.controller
   });
 
   final ValueChanged<String> onChanged;
   final Function() onEditingComplete;
+  final TextEditingController controller;
   final double toolbarHeight = SliverAppBarWidget.toolbarHeight;
 
   @override
@@ -42,6 +44,7 @@ class TextFieldWidget extends StatelessWidget {
                   child: SizedBox(
                     height: toolbarHeight * 0.48,
                     child: TextField(
+                      controller: controller,
                       style: TextType.textField.textSyle,
                       onChanged: onChanged,
                       onEditingComplete: onEditingComplete,

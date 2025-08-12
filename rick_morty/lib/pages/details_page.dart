@@ -49,14 +49,19 @@ class DetailsPageState extends State<DetailsPage> {
                 size: 24,
               )
             ),
-            rightIcon: IconButton(
-              onPressed: () => Void,
-              icon: Icon(
-                CupertinoIcons.person_crop_circle,
-                color: AppColors.rightIconColor,
-                size: 24,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: IconButton(
+                  onPressed: () => Void,
+                  icon: Icon(
+                    CupertinoIcons.person_crop_circle,
+                    color: AppColors.rightIconColor,
+                    size: 24,
+                  ),
+                ),
               ),
-            ),
+            ],
             titleWidget: AppTitleWidget(),
           ),
 

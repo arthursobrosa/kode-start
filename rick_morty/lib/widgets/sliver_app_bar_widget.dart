@@ -5,12 +5,12 @@ class SliverAppBarWidget extends StatelessWidget {
   const SliverAppBarWidget({
     super.key,
     required this.leftIcon,
-    required this.rightIcon,
-    required this.titleWidget
+    required this.actions,
+    required this.titleWidget,
   });
 
   final Widget leftIcon;
-  final Widget rightIcon;
+  final List<Widget>? actions;
   final Widget titleWidget;
 
   static double get expandedHeight => 131;
@@ -25,12 +25,7 @@ class SliverAppBarWidget extends StatelessWidget {
       expandedHeight: expandedHeight,
       toolbarHeight: toolbarHeight,
       leading: leftIcon,
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 6),
-          child: rightIcon,
-        ),
-      ],
+      actions: actions,
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
           padding: const EdgeInsets.only(top: 20),
