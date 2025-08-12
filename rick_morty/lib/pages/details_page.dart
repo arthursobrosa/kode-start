@@ -5,9 +5,11 @@ import 'package:rick_morty/models/episode_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/widgets/app_bar_widget.dart';
 import 'package:rick_morty/widgets/detailed_card_widget.dart';
+import 'package:rick_morty/widgets/shimmer_widget.dart';
 
 class DetailsPage extends StatefulWidget {
   static const routeId = '/details';
+
   const DetailsPage({
     super.key,
     required this.characterId,
@@ -51,17 +53,24 @@ class DetailsPageState extends State<DetailsPage> {
         future: combinedFuture,
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Padding(
+              padding: EdgeInsets.only(
+                top: 17,
+                left: 20,
+                right: 20
+              ),
+              child: ShimmerWidget.rectangular(
+                height: 500,
+                borderRadius: 10,
+              ),
+            );
           } else if (snapshot.hasError) {
             return Center(child: Text('Erro: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             final character = snapshot.data![0] as CharacterModel;
             final episode = snapshot.data![1] as EpisodeModel?;
 
-            return DetailedCardWidget(
-              character: character, 
-              episode: episode
-            );
+            return DetailedCardWidget(character: character, episode: episode);
           } else {
             return Center(child: Text('Nenhum dado encontrado'));
           }

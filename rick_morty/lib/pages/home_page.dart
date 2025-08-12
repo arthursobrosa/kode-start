@@ -6,9 +6,11 @@ import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/widgets/app_bar_widget.dart';
 import 'package:rick_morty/widgets/home_card_widget.dart';
+import 'package:rick_morty/widgets/shimmer_widget.dart';
 
 class HomePage extends StatefulWidget {
   static const routeId = '/home';
+
   const HomePage({super.key});
 
   @override
@@ -18,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<CharacterModel> characters = [];
   bool isLoading = false;
+  bool isConnecting = true;
   late final int numberOfPages;
   int page = 1;
   final ScrollController _scrollController = ScrollController();
@@ -39,6 +42,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _init() async {
     await setNumberOfPages();
     await fetchCharacters();
+    isConnecting = false;
   }
 
   Future<void> setNumberOfPages() async {
@@ -77,36 +81,61 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBarWidget(isDetailsPage: false, onTapLeftIcon: () => Void),
-      body: ListView.builder(
-        controller: _scrollController,
-        itemCount: characters.length + 1,
-        itemBuilder: (context, index) {
-          if (index == characters.length) {
-            if (isLoading) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 15),
-                child: Center(child: CircularProgressIndicator()),
-              );
-            }
+      body: Column(
+        children: [
+          isConnecting
+              ? Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          right: 20,
+                          left: 20,
+                          top: 15
+                        ),
+                        child: ShimmerWidget.rectangular(
+                          height: 160,
+                          borderRadius: 10,
+                        ),
+                      );
+                    },
+                    itemCount: 5,
+                  ),
+                )
+              : Expanded(
+                  child: ListView.builder(
+                    controller: _scrollController,
+                    itemCount: characters.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == characters.length) {
+                        if (isLoading) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        }
 
-            return SizedBox.shrink();
-          }
+                        return SizedBox.shrink();
+                      }
 
-          final character = characters[index];
+                      final character = characters[index];
 
-          return HomeCardWidget(
-            character: character,
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                DetailsPage.routeId,
-                arguments: {
-                  'characterId': character.id,
-                  'episodeId': character.firstEpisodeId,
-                },
-              );
-            },
-          );
-        },
+                      return HomeCardWidget(
+                        character: character,
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            DetailsPage.routeId,
+                            arguments: {
+                              'characterId': character.id,
+                              'episodeId': character.firstEpisodeId,
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+        ],
       ),
     );
   }
