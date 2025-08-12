@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/pages/details_page.dart';
@@ -76,6 +77,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> _handleRefresh() async {
+    characters = [];
+    isLoading = false;
+    isConnecting = true;
+    page = 1;
+    await fetchCharacters();
+    isConnecting = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,11 +98,7 @@ class _HomePageState extends State<HomePage> {
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: EdgeInsets.only(
-                          right: 20,
-                          left: 20,
-                          top: 15
-                        ),
+                        padding: EdgeInsets.only(right: 20, left: 20, top: 15),
                         child: ShimmerWidget.rectangular(
                           height: 160,
                           borderRadius: 10,
@@ -103,35 +109,39 @@ class _HomePageState extends State<HomePage> {
                   ),
                 )
               : Expanded(
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    itemCount: characters.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index == characters.length) {
-                        if (isLoading) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: Center(child: CircularProgressIndicator()),
-                          );
+                  child: LiquidPullToRefresh(
+                    color: AppColors.backgroundColor,
+                    onRefresh: _handleRefresh,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: characters.length + 1,
+                      itemBuilder: (context, index) {
+                        if (index == characters.length) {
+                          if (isLoading) {
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 15),
+                              child: Center(child: CircularProgressIndicator()),
+                            );
+                          }
+                    
+                          return SizedBox.shrink();
                         }
-
-                        return SizedBox.shrink();
-                      }
-
-                      final character = characters[index];
-
-                      return HomeCardWidget(
-                        character: character,
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            DetailsPage.routeId,
-                            arguments: character,
-                          );
-                        },
-                      );
-                    },
+                    
+                        final character = characters[index];
+                    
+                        return HomeCardWidget(
+                          character: character,
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                              DetailsPage.routeId,
+                              arguments: character,
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
-                ),
+              ),
         ],
       ),
     );
