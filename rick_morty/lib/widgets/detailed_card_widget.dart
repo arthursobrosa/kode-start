@@ -21,7 +21,7 @@ class DetailedCardWidget extends StatelessWidget {
     Map<String, String> map = {};
 
     map['Gender:'] = character.gender;
-    map['Origin:'] = character.origin;
+    map['Origin:'] = character.origin.capitalize();
     map['Last known location:'] = character.lastKnownLocation;
     map['First seen in:'] = episode != null ? episode!.name : 'Unknown';
 
