@@ -33,7 +33,9 @@ class _HomePageState extends State<HomePage> {
   String text = '';
   (String, dynamic)? queryParameterTuple;
   final TextEditingController _textEditingController = TextEditingController();
-  List<String> filters = CharacterPropertyType.values.map((element) => element.name).toList();
+  List<String> filters = CharacterPropertyType.values
+      .map((element) => element.name)
+      .toList();
   late String selectedFilter;
 
   @override
@@ -151,7 +153,7 @@ class _HomePageState extends State<HomePage> {
 
   void onEditingComplete() {
     FocusScope.of(context).unfocus();
-    queryParameterTuple = (CharacterPropertyType.name.queryParameterName, text);
+    queryParameterTuple = (selectedFilter, text);
     _refresh();
   }
 
@@ -162,10 +164,11 @@ class _HomePageState extends State<HomePage> {
       isScrollControlled: true,
       builder: (BuildContext context) {
         return SizedBox(
-          // height: MediaQuery.of(context).size.height * 0.8,
           width: MediaQuery.of(context).size.width,
           child: FiltersWidget(
-            filters: CharacterPropertyType.values.map((element) => element.name).toList(),
+            filters: CharacterPropertyType.values
+                .map((element) => element.name)
+                .toList(),
             initialSelectedFilter: selectedFilter,
             onFilterSelected: (filter) => selectedFilter = filter,
           ),
@@ -206,9 +209,8 @@ class _HomePageState extends State<HomePage> {
                               : collapseAppBar,
                           icon: Icon(
                             _isTextFieldFocused
-                              ? Icons.filter_list
-                              : Icons.search
-                            ,
+                                ? Icons.filter_list
+                                : Icons.search,
                             color: _isTextFieldFocused
                                 ? AppColors.cardFooterColor
                                 : AppColors.rightIconColor,
