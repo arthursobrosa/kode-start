@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:rick_morty/data/repository.dart';
+import 'package:rick_morty/service/api_service.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/models/episode_model.dart';
 
@@ -33,7 +33,7 @@ class DetailsViewModel {
 
     if (firstEpisodeId != null) {
       try {
-        final fetchedEpisode = await Repository.fetchEntity(
+        final fetchedEpisode = await ApiService.fetchEntity(
           '${EpisodeModel.endPoint}/$firstEpisodeId',
           (json) => EpisodeModel.fromJson(json),
         );

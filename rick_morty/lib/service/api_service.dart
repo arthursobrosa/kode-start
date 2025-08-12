@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-abstract class Repository {
+abstract class ApiService {
   static final _dio = Dio(
     BaseOptions(baseUrl: 'https://rickandmortyapi.com/api'),
   );

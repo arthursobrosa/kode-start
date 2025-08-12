@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:rick_morty/data/repository.dart';
+import 'package:rick_morty/service/api_service.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/models/episode_model.dart';
 import 'package:rick_morty/models/location_model.dart';
@@ -80,7 +80,7 @@ class HomeViewModel {
 
   Future<void> setNumberOfPages() async {
     try {
-      final paginatedEntities = await Repository.fetchEntity(
+      final paginatedEntities = await ApiService.fetchEntity(
         homeData.value.drawerOptionType.endPoint,
         homeData.value.drawerOptionType.parseMethod,
         page: 1,
@@ -104,7 +104,7 @@ class HomeViewModel {
     homeData.value = homeData.value.copyWith(isLoading: true);
 
     try {
-      final paginatedEntities = await Repository.fetchEntity(
+      final paginatedEntities = await ApiService.fetchEntity(
         homeData.value.drawerOptionType.endPoint,
         homeData.value.drawerOptionType.parseMethod,
         page: _page,
