@@ -58,7 +58,7 @@ class DetailedCardWidget extends StatelessWidget {
                         top: 15
                       ),
                       child: Text(
-                        'Last know location:',
+                        'Last known location:',
                         style: CardTextType.subDescription.textSyle,
                       ),
                     ),
