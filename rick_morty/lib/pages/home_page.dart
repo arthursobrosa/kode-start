@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/data/repository.dart';
@@ -7,6 +8,8 @@ import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/home_card_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
+import 'package:rick_morty/widgets/app_title_widget.dart';
+import 'package:rick_morty/widgets/text_field_widget.dart';
 
 class HomePage extends StatefulWidget {
   static const routeId = '/home';
@@ -24,6 +27,8 @@ class _HomePageState extends State<HomePage> {
   late final int numberOfPages;
   int page = 1;
   final ScrollController _scrollController = ScrollController();
+  bool _isAppBarCollapsed = false;
+  String text = "";
 
   @override
   void initState() {
@@ -33,6 +38,21 @@ class _HomePageState extends State<HomePage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         fetchCharacters();
+      }
+    });
+
+    _scrollController.addListener(() {
+      double expandedHeight = SliverAppBarWidget.expandedHeight;
+      double toolbarHeight = SliverAppBarWidget.toolbarHeight;
+
+      bool isExpanded =
+          _scrollController.hasClients &&
+          _scrollController.offset < (expandedHeight - toolbarHeight);
+
+      if (isExpanded == _isAppBarCollapsed) {
+        setState(() {
+          _isAppBarCollapsed = !isExpanded;
+        });
       }
     });
 
@@ -97,6 +117,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void onChanged(String text) {
+    this.text = text;
+  }
+
+  void onEditingComplete() {
+    FocusScope.of(context).unfocus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,9 +137,32 @@ class _HomePageState extends State<HomePage> {
           controller: _scrollController,
           slivers: [
             SliverAppBarWidget(
-              isDetailsPage: false,
-              onTapLeftIcon: () => Void,
-              onTapRightIcon: () => Void,
+              leftIcon: _isAppBarCollapsed
+                  ? SizedBox.shrink()
+                  : IconButton(
+                      onPressed: () => Void,
+                      icon: Icon(
+                        Icons.menu,
+                        color: AppColors.leftIconColor,
+                        size: 24,
+                      ),
+                    ),
+              rightIcon: IconButton(
+                onPressed: _isAppBarCollapsed ? onEditingComplete : () => Void,
+                icon: Icon(
+                  _isAppBarCollapsed
+                      ? Icons.search
+                      : CupertinoIcons.person_crop_circle,
+                  color: AppColors.rightIconColor,
+                  size: 24,
+                ),
+              ),
+              titleWidget: _isAppBarCollapsed
+                  ? TextFieldWidget(
+                      onChanged: onChanged,
+                      onEditingComplete: onEditingComplete,
+                    )
+                  : AppTitleWidget(),
             ),
 
             isConnecting
