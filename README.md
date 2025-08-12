@@ -63,7 +63,26 @@ Caso não haja resultados para a pesquisa, o usuário recebe uma empty view:
 
 ## Arquitetura e organização do código
 
--**MVVM**: para esse desafio, decidi utilizar view models que cuidassem da lógica de negócios das minhas pages;
--**Organização do código**: dividi os arquivos em pastas 
+- **MVVM**: para esse desafio, decidi utilizar view models que cuidassem da lógica de negócios das minhas pages. Já os models foram os CharacterModel, EpisodeModel e LocationModel. A ViewModel se conecta com a page e realiza as requições à API, devolvendo os models já construídos.
 
- 
+<img width="410" height="220" alt="models" src="https://github.com/user-attachments/assets/304b1ba5-ad1e-4d52-9987-e63efaa15b29" />
+
+<img width="378" height="214" alt="pages" src="https://github.com/user-attachments/assets/16525683-b5b5-4d85-a993-9c1852addab0" />
+
+<img width="436" height="160" alt="viewmodels" src="https://github.com/user-attachments/assets/65373b29-7796-47d3-a5c0-e70aa1a70302" />
+
+- **Serviço de API**: para realizar as requisições de forma abstrata, criei métodos genéricos dentro da minha classe de serviço, o que me possibilitou trabalhar com
+  os três tipos de entidades disponíveis na [documentação](https://rickandmortyapi.com/documentation);
+
+<img width="832" height="280" alt="Screenshot 2025-08-12 at 17 02 25" src="https://github.com/user-attachments/assets/5352a584-8343-4324-92d0-ddcbd18dbe07" />
+
+- **Componentes**: todos os componentes (widgets) foram armazenados juntos para facilitar a organização;
+
+<img width="590" height="744" alt="Screenshot 2025-08-12 at 17 05 31" src="https://github.com/user-attachments/assets/4d582c95-63be-4b18-ace0-a119be979eeb" />
+
+- **Temas**: para facilitar a reutilização de estilos e cores, criei classes responsáveis por organizar o tema do app. Foi de grande ajuda para a implementação
+  do Dark/Light mode, inclusive 😅
+  
+<img width="700" height="800" alt="Screenshot 2025-08-12 at 17 07 34" src="https://github.com/user-attachments/assets/09188f1d-ff19-450b-91d5-aba2a39e9335" />
+
+
