@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.latoTextTheme(
           Theme.of(context).textTheme
-        )
+        ),
       )
     );
   }
