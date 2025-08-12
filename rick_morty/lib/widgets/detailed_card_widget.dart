@@ -65,7 +65,7 @@ class DetailedCardWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 12),
                       child: Text(
                         character.name.toUpperCase(),
-                        style: CardTextType.title.textSyle,
+                        style: TextType.title.textSyle,
                       ),
                     ),
                     Padding(

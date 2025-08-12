@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/text_type.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({
@@ -37,14 +38,6 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
               ),
-              // IconButton(
-              //   icon: Icon(
-              //     isDetailsPage ? Icons.arrow_back : Icons.menu, 
-              //     color: AppColors.leftIconColor,
-              //     size: 24,
-              //   ),
-              //   onPressed: () => print("foo"),
-              // ),
               Expanded(
                 child: Column(
                   children: [
@@ -53,12 +46,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                       padding: const EdgeInsets.only(top: 6),
                       child: Text(
                         'RICK AND MORTY API',
-                        style: TextStyle(
-                          color: AppColors.textColor,
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: 14.5 * 0.165
-                        ),
+                        style: TextType.appTitle.textSyle,
                       ),
                     ),
                   ],

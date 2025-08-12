@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/pages/home_page.dart';
 
@@ -37,10 +36,7 @@ class MyApp extends StatelessWidget {
             return null;
         }
       },
-      home: const HomePage(),
-      theme: ThemeData(
-        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
-      ),
+      home: const HomePage()
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
-import 'package:rick_morty/theme/card_text_type.dart';
+import 'package:rick_morty/theme/text_type.dart';
 
 class HomeCardWidget extends StatelessWidget {
   const HomeCardWidget({
@@ -47,7 +47,7 @@ class HomeCardWidget extends StatelessWidget {
                   ),
                   child: Text(
                     character.name.toUpperCase(),
-                    style: CardTextType.title.textSyle,
+                    style: TextType.title.textSyle,
                   )
                 ),
               )

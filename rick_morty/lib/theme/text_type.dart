@@ -1,0 +1,49 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:rick_morty/theme/app_colors.dart';
+
+enum TextType { appTitle, title, description, subDescription }
+
+extension TextTypeProperties on TextType {
+  double get fontSize {
+    switch (this) {
+      case TextType.appTitle:
+        return 14.5;
+      case TextType.title:
+        return 14.5;
+      case TextType.description:
+        return 12.5;
+      case TextType.subDescription:
+        return 12.5;
+    }
+  }
+
+  FontWeight get fontWeight {
+    switch (this) {
+      case TextType.appTitle:
+        return FontWeight.w400; // regular
+      case TextType.title:
+        return FontWeight.w900; // black
+      case TextType.description:
+        return FontWeight.w500; // medium
+      case TextType.subDescription:
+        return FontWeight.w300; // light
+    }
+  }
+
+  double get letterSpacing {
+    switch (this) {
+      case TextType.appTitle:
+        return fontSize * 0.165;
+      default:
+        return 0;
+    }
+  }
+
+  TextStyle get textSyle => GoogleFonts.lato(
+    color: AppColors.textColor,
+    fontSize: fontSize,
+    fontWeight: fontWeight,
+    letterSpacing: letterSpacing
+  );
+}
