@@ -10,7 +10,11 @@ class HomeCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      margin: const EdgeInsets.only(left: 20, right: 20, top: 15),
+      margin: const EdgeInsets.only(
+        left: 20, 
+        right: 20, 
+        top: 15
+      ),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
@@ -18,7 +22,10 @@ class HomeCardWidget extends StatelessWidget {
         onTap: onTap,
         child: Stack(
           children: [
-            Image.asset('assets/images/morty.png', fit: BoxFit.cover),
+            Image.asset(
+              'assets/images/morty.png', 
+              fit: BoxFit.cover
+            ),
             Positioned(
               bottom: 0,
               left: 0,
