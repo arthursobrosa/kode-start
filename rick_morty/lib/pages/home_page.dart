@@ -42,7 +42,10 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.of(context).pushNamed(
                       DetailsPage.routeId,
-                      arguments: dataResults[index].id,
+                      arguments: {
+                        'characterId': dataResults[index].id,
+                        'episodeId': dataResults[index].firstEpisodeId
+                      }
                     );
                   },
                 );

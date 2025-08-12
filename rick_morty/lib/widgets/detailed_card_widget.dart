@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
+import 'package:rick_morty/models/episode_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/card_text_type.dart';
 import 'package:rick_morty/utils/string_extension.dart';
 import 'package:rick_morty/widgets/status_circle_widget.dart';
 
 class DetailedCardWidget extends StatelessWidget {
-  const DetailedCardWidget({super.key, required this.character});
+  const DetailedCardWidget({
+    super.key, 
+    required this.character,
+    required this.episode
+  });
 
   final CharacterModel character;
+  final EpisodeModel? episode;
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +26,7 @@ class DetailedCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.network(
-              character.imagePath,
-              fit: BoxFit.cover,
-              height: 160,
-            ),
+            Image.network(character.imagePath, fit: BoxFit.cover, height: 160),
             Container(
               color: AppColors.cardFooterColor,
               child: Padding(
@@ -42,14 +44,19 @@ class DetailedCardWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 38),
                       child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           StatusCircleWidget(
-                            status: character.status, 
-                            circleSize: Size(8, 8), strokeWidth: 1
+                            status: character.status,
+                            circleSize: Size(8, 8),
+                            strokeWidth: 1,
                           ),
-                          Text(
-                            '${character.status.capitalize()} - ${character.species}',
-                            style: CardTextType.description.textSyle,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Text(
+                              '${character.status.capitalize()} - ${character.species}',
+                              style: CardTextType.description.textSyle,
+                            ),
                           ),
                         ],
                       ),
@@ -64,7 +71,7 @@ class DetailedCardWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        'Earth (Replacement Dimension)',
+                        character.lastKnownLocation,
                         style: CardTextType.description.textSyle,
                       ),
                     ),
@@ -78,7 +85,7 @@ class DetailedCardWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
-                        'Total Rickall',
+                        episode != null ? episode!.name : 'Unknwon',
                         style: CardTextType.description.textSyle,
                       ),
                     ),
