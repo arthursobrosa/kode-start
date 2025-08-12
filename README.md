@@ -43,9 +43,15 @@ Caso não haja resultados para a pesquisa, o usuário recebe uma empty view:
 <img width="300" height="648" alt="empty" src="https://github.com/user-attachments/assets/7e8f6294-09da-4faa-be6f-f739e67ba58d" />
 
 - **Menu Lateral**: ao clicar no menu lateral na parte superior esquerda da Home, o usuário pode escolher entre três listas a serem visualizadas:
-  Personagens 🙋, Episódios 🎬 e Localizações 🗺️
+  Personagens 🙋, Episódios 🎬 e Localizações 🗺️. Essas listas também podem ser filtradas a partir dos seus "query parameters" correspondentes (personagens -> nome, status,
+  espécie e gênero; episódios -> nome e código do episódio, tipo S01E10; localizações -> nome, tipo e dimensão);
 
+![menu](https://github.com/user-attachments/assets/b6b90c62-9a7a-4ad0-8c51-9e91089ab9d7)
 
+- **Configurações**: ao clicar no ícone de perfil, outro drawer é aberto, dessa vez da direita para a esquerda. Perceba que ele pode ser aberto tanto a partir da Home, quanto
+  a partir da página de detalhes.
+
+![settings](https://github.com/user-attachments/assets/c0f8db31-0129-4f31-a8ca-a76dce14798d)
 
 
 
