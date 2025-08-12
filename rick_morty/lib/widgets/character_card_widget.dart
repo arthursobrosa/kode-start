@@ -4,8 +4,8 @@ import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 
-class HomeCardWidget extends StatelessWidget {
-  const HomeCardWidget({
+class CharacterCardWidget extends StatelessWidget {
+  const CharacterCardWidget({
     super.key,
     required this.character,
     required this.onTap,

@@ -3,18 +3,16 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/data/repository.dart';
-import 'package:rick_morty/pages/details_page.dart';
-import 'package:rick_morty/pages/home_view_model.dart';
+import 'package:rick_morty/view_models/home_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/text_type.dart';
+import 'package:rick_morty/widgets/characters_list_widget.dart';
 import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/empty_widget.dart';
 import 'package:rick_morty/widgets/filters_widget.dart';
+import 'package:rick_morty/widgets/simple_card_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
-import 'package:rick_morty/widgets/home_card_widget.dart';
-import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/app_title_widget.dart';
 import 'package:rick_morty/widgets/text_field_widget.dart';
 
@@ -34,7 +32,6 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _textEditingController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
 
-  late String _selectedFilter;
   String _textFieldText = '';
   bool _isTextFieldShowing = false;
   bool _isAppBarCollapsed = false;
@@ -45,19 +42,10 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    _setInitialSelectedFilter();
     _fetch();
 
     _scrollController.addListener(_scrollListener);
     _scrollController.addListener(_appBarListener);
-  }
-
-  void _setInitialSelectedFilter() {
-    final filters = CharacterPropertyType.values
-        .map((element) => element.name)
-        .toList();
-
-    _selectedFilter = filters.first;
   }
 
   void _scrollListener() {
@@ -135,7 +123,10 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _openFilters() {
+  void _openFilters({
+    required List<String> filters,
+    required String selectedFilter,
+  }) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.appBarColor,
@@ -144,10 +135,8 @@ class _HomePageState extends State<HomePage> {
         return SizedBox(
           width: MediaQuery.of(context).size.width,
           child: FiltersWidget(
-            filters: CharacterPropertyType.values
-                .map((element) => element.name)
-                .toList(),
-            initialSelectedFilter: _selectedFilter,
+            filters: filters,
+            initialSelectedFilter: selectedFilter,
             onFilterSelected: _onFilterSelected,
           ),
         );
@@ -163,31 +152,19 @@ class _HomePageState extends State<HomePage> {
     _debounce?.cancel();
 
     _debounce = Timer(Duration(milliseconds: 500), () {
-      _viewModel.updateQuery(
-        selectedFilter: _selectedFilter,
-        textFieldText: _textFieldText,
-      );
-
+      _viewModel.updateQuery(textFieldText: _textFieldText);
       _refresh();
     });
   }
 
   void _onEditingComplete() {
     _focusNode.unfocus();
-
-    _viewModel.updateQuery(
-      selectedFilter: _selectedFilter,
-      textFieldText: _textFieldText,
-    );
-
+    _viewModel.updateQuery(textFieldText: _textFieldText);
     _refresh();
   }
 
   void _onFilterSelected(String filter) {
-    setState(() {
-      _selectedFilter = filter;
-    });
-
+    _viewModel.updateSelectedFilter(filter);
     _onEditingComplete();
   }
 
@@ -224,7 +201,16 @@ class _HomePageState extends State<HomePage> {
                       ? TextType.selected.textSyle
                       : TextType.appTitle.textSyle,
                 ),
-                onTap: () => _viewModel.updateSelectedDrawer(index),
+                onTap: () {
+                  _viewModel.updateSelectedDrawer(index);
+                  setState(() {
+                    _textFieldText = '';
+                    _textEditingController.text = _textFieldText;
+                    _isTextFieldShowing = false;
+                  });
+                  _viewModel.updateQuery(textFieldText: _textFieldText);
+                  _refresh();
+                },
               );
             }),
           ),
@@ -263,7 +249,10 @@ class _HomePageState extends State<HomePage> {
                             padding: const EdgeInsets.only(right: 6),
                             child: IconButton(
                               onPressed: _isTextFieldShowing
-                                  ? _openFilters
+                                  ? () => _openFilters(
+                                      filters: data.filters,
+                                      selectedFilter: data.selectedFilter,
+                                    )
                                   : _collapseAppBar,
                               icon: Icon(
                                 _isTextFieldShowing
@@ -322,62 +311,27 @@ class _HomePageState extends State<HomePage> {
                       : AppTitleWidget(),
                 ),
 
-                if (data.isConnecting)
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          right: 20,
-                          left: 20,
-                          top: 15,
-                        ),
-                        child: ShimmerWidget.rectangular(
-                          height: 160,
-                          borderRadius: 10,
-                        ),
-                      );
-                    }),
-                  )
-                else if (data.isShowingError)
+                if (data.isShowingError)
                   SliverFillRemaining(
                     hasScrollBody: false,
                     child: EmptyWidget(
-                      text: _viewModel.getEmptyText(
-                        selectedFilter: _selectedFilter,
-                      ),
+                      text: _viewModel.getEmptyText(),
                       onTapButton: _refresh,
                     ),
                   )
+                else if (data.drawerOptionType == DrawerOptionType.characters)
+                  CharactersListWidget(
+                    entities: data.entities,
+                    isLoading: data.isLoading,
+                    isConnecting: data.isConnecting,
+                    minimumLength: 5,
+                  )
                 else
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      if (index == data.characters.length) {
-                        if (data.isLoading) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.cardFooterColor,
-                              ),
-                            ),
-                          );
-                        }
-
-                        return SizedBox(height: 40);
-                      }
-
-                      final character = data.characters[index];
-
-                      return HomeCardWidget(
-                        character: character,
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            DetailsPage.routeId,
-                            arguments: character,
-                          );
-                        },
-                      );
-                    }, childCount: data.characters.length + 1),
+                  SimpleCardWidget(
+                    items: data.entities,
+                    isLoading: data.isLoading,
+                    isConnecting: data.isConnecting,
+                    minimumLength: 8,
                   ),
               ],
             ),

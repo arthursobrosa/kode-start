@@ -12,6 +12,10 @@ class PaginatedCharacters {
       numberOfPages: json['info']['pages'],
     );
   }
+
+  static PaginatedCharacters parsePaginatedCharacters(Map<String, dynamic> json) {
+    return PaginatedCharacters.fromJson(json);
+  }
 }
 
 class CharacterModel {
@@ -76,19 +80,4 @@ enum CharacterPropertyType {
   status,
   species,
   gender
-}
-
-extension CharacterPropertyTypeExtension on CharacterPropertyType {
-  String get queryParameterName {
-    switch (this) {
-      case CharacterPropertyType.name:
-        return 'name';
-      case CharacterPropertyType.status:
-        return 'status';
-      case CharacterPropertyType.species:
-        return 'species';
-      case CharacterPropertyType.gender:
-        return 'gender';
-    }
-  }
 }

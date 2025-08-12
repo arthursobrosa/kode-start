@@ -1,5 +1,4 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/text_type.dart';
@@ -65,7 +64,7 @@ class TextFieldWidget extends StatelessWidget {
                           }) => null,
                       decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Search characters...',
+                        hintText: 'Search...',
                         hintStyle: TextType.textFieldHint.textSyle,
                       ),
                     ),

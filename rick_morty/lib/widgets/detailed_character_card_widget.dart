@@ -6,11 +6,11 @@ import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/utils/string_extension.dart';
 import 'package:rick_morty/widgets/status_circle_widget.dart';
 
-class DetailedCardWidget extends StatelessWidget {
-  const DetailedCardWidget({
-    super.key, 
+class DetailedCharacterCardWidget extends StatelessWidget {
+  const DetailedCharacterCardWidget({
+    super.key,
     required this.character,
-    required this.episode
+    required this.episode,
   });
 
   final CharacterModel character;

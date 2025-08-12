@@ -2,13 +2,13 @@ import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
-import 'package:rick_morty/pages/details_view_model.dart';
+import 'package:rick_morty/view_models/details_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
-import 'package:rick_morty/widgets/detailed_card_widget.dart';
+import 'package:rick_morty/widgets/detailed_character_card_widget.dart';
 import 'package:rick_morty/widgets/app_title_widget.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -43,7 +43,7 @@ class DetailsPageState extends State<DetailsPage> {
               ListTile(
                 title: Text('Item 1', style: TextType.appTitle.textSyle),
                 onTap: () => Void,
-              )
+              ),
             ],
           ),
           backgroundColor: AppColors.backgroundColor,
@@ -92,7 +92,7 @@ class DetailsPageState extends State<DetailsPage> {
                         ),
                       )
                     else
-                      DetailedCardWidget(
+                      DetailedCharacterCardWidget(
                         character: _viewModel.character,
                         episode: data.episode,
                       ),
