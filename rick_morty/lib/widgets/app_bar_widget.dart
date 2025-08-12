@@ -13,13 +13,18 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       color: AppColors.appBarColor,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(right: 14, left: 14, top: 18),
+          padding: const EdgeInsets.only(
+            right: 14, 
+            left: 14, 
+            top: 18
+          ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Icon(
                 isDetailsPage ? Icons.arrow_back : Icons.menu, 
-                color: AppColors.leftIconColor, size: 24
+                color: AppColors.leftIconColor,
+                size: 24,
               ),
               Expanded(
                 child: Column(
@@ -33,6 +38,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
                           color: AppColors.textColor,
                           fontSize: 14.5,
                           fontWeight: FontWeight.w400,
+                          letterSpacing: 14.5 * 0.165
                         ),
                       ),
                     ),
