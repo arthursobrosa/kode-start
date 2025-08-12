@@ -54,9 +54,9 @@ Note, também, que um círculo aparece
 
 Caso não haja resultados para a pesquisa, o usuário recebe uma empty view:
 
-<p align="center">
-  <img width="300" height="648" alt="empty" src="https://github.com/user-attachments/assets/7e8f6294-09da-4faa-be6f-f739e67ba58d" />
-</p>
+
+<img width="300" height="648" alt="empty" src="https://github.com/user-attachments/assets/7e8f6294-09da-4faa-be6f-f739e67ba58d" />
+
 
 <br>
 
@@ -103,9 +103,9 @@ ___
 
 - **MVVM**: para esse desafio, decidi utilizar view models que cuidassem da lógica de negócios das minhas pages. Já os models foram os CharacterModel, EpisodeModel e LocationModel. A ViewModel se conecta com a page e realiza as requições à API, devolvendo os models já construídos.
   
-<p>
+<p align="center">
   <img width="500" height="300" alt="models" src="https://github.com/user-attachments/assets/304b1ba5-ad1e-4d52-9987-e63efaa15b29" />
-  <img width="500" height="300" alt="pages" src="https://github.com/user-attachments/assets/16525683-b5b5-4d85-a993-9c1852addab0" />
+  <img width="500" height="270" alt="pages" src="https://github.com/user-attachments/assets/16525683-b5b5-4d85-a993-9c1852addab0" />
   <img width="500" height="300" alt="viewmodels" src="https://github.com/user-attachments/assets/65373b29-7796-47d3-a5c0-e70aa1a70302" />
 </p>
 
@@ -143,5 +143,15 @@ ___
 ## Utilização
 
 Para rodar abra o projeto no seu IDE de preferência e rode ***flutter pub get*** e ***flutter run***
+
+___
+
+## Agradecimentos
+
+Muito obrigado pela oportunidade de poder fazer parte deste grande projeto! Tenho certeza que as habilidades que adquiri aqui serão muito importantes no meu futuro 
+como desenvolvedor 😀
+
+
+
 
 
