@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/view_models/home_view_model.dart';
