@@ -25,7 +25,12 @@ class CharactersListWidget extends StatelessWidget {
         if (isConnecting) {
           return Padding(
             padding: const EdgeInsets.only(right: 20, left: 20, top: 15),
-            child: ShimmerWidget.rectangular(height: 160, borderRadius: 10),
+            child: ShimmerWidget.rectangular(
+              height: 160, 
+              borderRadius: 10,
+              baseColor: AppColors.baseShimmerColor(context),
+              highlightColor: AppColors.highlightShimmerColor(context),
+            ),
           );
         } else {
           if (index == entities.length) {
@@ -34,7 +39,7 @@ class CharactersListWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
+                    color: AppColors.primaryColor(context),
                   ),
                 ),
               );

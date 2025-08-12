@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:rick_morty/theme/text_type.dart';
 
 class AppTitleWidget extends StatelessWidget {
-  const AppTitleWidget({super.key});
+  final TextStyle textStyle;
+
+  const AppTitleWidget({super.key, required this.textStyle});
 
   @override
   Widget build(BuildContext context) {
-    return Text('RICK AND MORTY API', style: TextType.spacedTitle.textSyle);
+    return Text('RICK AND MORTY API', style: textStyle);
   }
 }

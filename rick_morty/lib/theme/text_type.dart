@@ -67,17 +67,19 @@ extension TextTypeProperties on TextType {
     }
   }
 
-  Color get color {
+  Color color(BuildContext context) {
     switch (this) {
       case TextType.highlighted:
-        return AppColors.primaryColor;
+        return AppColors.primaryColor(context);
       default:
-        return AppColors.labelColor;
+        return AppColors.labelColor(context);
     }
   }
 
-  TextStyle get textSyle => GoogleFonts.lato(
-    color: color,
+
+
+  TextStyle textSyle(BuildContext context) => GoogleFonts.lato(
+    color: color(context),
     fontSize: fontSize,
     fontWeight: fontWeight,
     letterSpacing: letterSpacing,

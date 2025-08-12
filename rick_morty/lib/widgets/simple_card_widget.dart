@@ -9,6 +9,8 @@ class SimpleCardWidget extends StatelessWidget {
   final bool isLoading;
   final bool isConnecting;
   final int minimumLength;
+  final Color boxColor;
+  final TextStyle textStyle;
 
   const SimpleCardWidget({
     super.key,
@@ -16,6 +18,8 @@ class SimpleCardWidget extends StatelessWidget {
     required this.isLoading,
     required this.isConnecting,
     required this.minimumLength,
+    required this.boxColor,
+    required this.textStyle
   });
 
   @override
@@ -42,6 +46,8 @@ class SimpleCardWidget extends StatelessWidget {
               height: double.infinity,
               width: double.infinity,
               borderRadius: 12,
+              baseColor: AppColors.baseShimmerColor(context),
+              highlightColor: AppColors.highlightShimmerColor(context),
             );
           }
 
@@ -49,7 +55,7 @@ class SimpleCardWidget extends StatelessWidget {
 
           return Container(
             decoration: BoxDecoration(
-              color: AppColors.primaryColor,
+              color: boxColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Center(
@@ -57,7 +63,7 @@ class SimpleCardWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   '${item.name}',
-                  style: TextType.boldTitle.textSyle,
+                  style: textStyle,
                   textAlign: TextAlign.center,
                 ),
               ),

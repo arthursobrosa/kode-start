@@ -11,10 +11,18 @@ class DetailedCharacterCardWidget extends StatelessWidget {
     super.key,
     required this.character,
     required this.episode,
+    required this.keyWidgetTextStyle,
+    required this.valueWidgetTextStyle,
+    required this.titleTextStyle,
+    required this.circleStrokeColor
   });
 
   final CharacterModel character;
   final EpisodeModel? episode;
+  final TextStyle keyWidgetTextStyle;
+  final TextStyle valueWidgetTextStyle;
+  final TextStyle titleTextStyle;
+  final Color circleStrokeColor;
 
   List<Widget> detailedInfoWidgets() {
     List<Widget> children = [];
@@ -28,12 +36,12 @@ class DetailedCharacterCardWidget extends StatelessWidget {
     map.forEach((key, value) {
       Widget keyWidget = Padding(
         padding: const EdgeInsets.only(top: 15),
-        child: Text(key, style: TextType.bodySmall.textSyle),
+        child: Text(key, style: keyWidgetTextStyle),
       );
 
       Widget valueWidget = Padding(
         padding: const EdgeInsets.only(top: 4),
-        child: Text(value, style: TextType.bodyRegular.textSyle),
+        child: Text(value, style: valueWidgetTextStyle),
       );
 
       children.add(keyWidget);
@@ -60,7 +68,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
               height: 160,
             ),
             Container(
-              color: AppColors.primaryColor,
+              color: AppColors.primaryColor(context),
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 43),
                 child: Column(
@@ -70,7 +78,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 12),
                       child: Text(
                         character.name.toUpperCase(),
-                        style: TextType.boldTitle.textSyle,
+                        style: titleTextStyle,
                       ),
                     ),
                     Padding(
@@ -79,6 +87,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           StatusCircleWidget(
+                            strokeColor: circleStrokeColor,
                             status: character.status,
                             circleSize: Size(8, 8),
                             strokeWidth: 1,
@@ -87,7 +96,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8),
                             child: Text(
                               '${character.status.capitalize()} - ${character.species}',
-                              style: TextType.bodyRegular.textSyle,
+                              style: TextType.bodyRegular.textSyle(context),
                             ),
                           ),
                         ],

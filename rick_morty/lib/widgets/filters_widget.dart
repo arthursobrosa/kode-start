@@ -67,7 +67,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('Filters', style: TextType.boldTitle.textSyle),
+          Text('Filters', style: TextType.boldTitle.textSyle(context)),
           SizedBox(height: 20),
           getFiltersRow(),
         ],
@@ -87,10 +87,12 @@ class FilterWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: isSelected ? AppColors.primaryColor : AppColors.backgroundColor,
+        color: isSelected 
+          ? AppColors.primaryColor(context) 
+          : AppColors.backgroundColor(context),
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text(text, style: TextType.bodyRegular.textSyle),
+      child: Text(text, style: TextType.bodyRegular.textSyle(context)),
     );
   }
 }

@@ -4,10 +4,20 @@ import 'package:rick_morty/theme/app_image_paths.dart';
 import 'package:rick_morty/theme/text_type.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({super.key, required this.text, required this.onTapButton});
+  const EmptyWidget({
+    super.key,
+    required this.text,
+    required this.onTapButton,
+    required this.textStyle,
+    required this.buttonTextStyle,
+    required this.buttonColor
+  });
 
   final String? text;
   final Function() onTapButton;
+  final TextStyle textStyle;
+  final TextStyle buttonTextStyle;
+  final Color buttonColor;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +29,7 @@ class EmptyWidget extends StatelessWidget {
           children: [
             Text(
               text ?? 'Unknown error',
-              style: TextType.spacedTitle.textSyle,
+              style: textStyle,
               textAlign: TextAlign.center,
               maxLines: null,
               overflow: TextOverflow.visible,
@@ -27,20 +37,16 @@ class EmptyWidget extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            Image.asset(
-              AppImagePaths.empty,
-              height: 180,
-              fit: BoxFit.contain,
-            ),
+            Image.asset(AppImagePaths.empty, height: 180, fit: BoxFit.contain),
 
             const SizedBox(height: 24),
 
             ElevatedButton(
               onPressed: onTapButton,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
+                backgroundColor: buttonColor,
               ),
-              child: Text('Refresh', style: TextType.buttonText.textSyle),
+              child: Text('Refresh', style: buttonTextStyle),
             ),
           ],
         ),

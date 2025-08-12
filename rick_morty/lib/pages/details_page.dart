@@ -34,30 +34,35 @@ class DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<DetailsData>(
+    return ValueListenableBuilder(
       valueListenable: _viewModel.detailsData,
       builder: (_, data, _) {
         return Scaffold(
+          backgroundColor: AppColors.backgroundColor(context),
           endDrawer: DrawerWidget(
+            backgroundColor: AppColors.secondaryColor(context),
             items: [
               ListTile(
-                title: Text('Item 1', style: TextType.spacedTitle.textSyle),
+                title: Text(
+                  'Item 1',
+                  style: TextType.spacedTitle.textSyle(context),
+                ),
                 onTap: () => Void,
               ),
             ],
           ),
-          backgroundColor: AppColors.backgroundColor,
           body: CustomScrollView(
             slivers: [
               SliverAppBarWidget(
+                backgroundColor: AppColors.secondaryColor(context),
                 leftIcon: IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(
                     Icons.arrow_back,
-                    color: AppColors.leftIconColor,
+                    color: AppColors.leftIconColor(context),
                     size: 24,
                   ),
-                ),
+                ), 
                 actions: [
                   Builder(
                     builder: (context) => Padding(
@@ -66,14 +71,16 @@ class DetailsPageState extends State<DetailsPage> {
                         onPressed: Scaffold.of(context).openEndDrawer,
                         icon: Icon(
                           CupertinoIcons.person_crop_circle,
-                          color: AppColors.rightIconColor,
+                          color: AppColors.rightIconColor(context),
                           size: 24,
                         ),
                       ),
                     ),
                   ),
-                ],
-                titleWidget: AppTitleWidget(),
+                ], 
+                titleWidget: AppTitleWidget(
+                  textStyle: TextType.spacedTitle.textSyle(context)
+                )
               ),
 
               SliverToBoxAdapter(
@@ -89,12 +96,18 @@ class DetailsPageState extends State<DetailsPage> {
                         child: ShimmerWidget.rectangular(
                           height: 500,
                           borderRadius: 10,
+                          baseColor: AppColors.baseShimmerColor(context),
+                          highlightColor: AppColors.highlightShimmerColor(context),
                         ),
                       )
                     else
                       DetailedCharacterCardWidget(
+                        circleStrokeColor: AppColors.labelColor(context),
                         character: _viewModel.character,
                         episode: data.episode,
+                        keyWidgetTextStyle: TextType.bodySmall.textSyle(context),
+                        valueWidgetTextStyle: TextType.bodyRegular.textSyle(context),
+                        titleTextStyle: TextType.boldTitle.textSyle(context),
                       ),
                   ],
                 ),

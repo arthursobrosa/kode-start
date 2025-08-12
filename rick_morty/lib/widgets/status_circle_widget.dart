@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rick_morty/theme/app_colors.dart';
 
 enum StatusType {
   alive,
@@ -35,12 +34,14 @@ class StatusCircleWidget extends StatelessWidget {
   final StatusType statusType;
   final Size circleSize;
   final double strokeWidth;
+  final Color strokeColor;
 
   const StatusCircleWidget._({
     super.key,
     required this.statusType,
     required this.circleSize,
     required this.strokeWidth,
+    required this.strokeColor
   });
 
   factory StatusCircleWidget({
@@ -48,12 +49,14 @@ class StatusCircleWidget extends StatelessWidget {
     required String status,
     required Size circleSize,
     required double strokeWidth,
+    required Color strokeColor
   }) {
     return StatusCircleWidget._(
       key: key,
       statusType: StatusType.fromString(status),
       circleSize: circleSize,
       strokeWidth: strokeWidth,
+      strokeColor: strokeColor,
     );
   }
 
@@ -62,6 +65,7 @@ class StatusCircleWidget extends StatelessWidget {
     return CustomPaint(
       size: circleSize,
       painter: CirclePainter(
+        strokeColor: strokeColor,
         circleColor: statusType.color(),
         strokeWidth: strokeWidth,
       ),
@@ -71,9 +75,14 @@ class StatusCircleWidget extends StatelessWidget {
 
 class CirclePainter extends CustomPainter {
   final Color circleColor;
+  final Color strokeColor;
   final double strokeWidth;
 
-  const CirclePainter({required this.circleColor, required this.strokeWidth});
+  const CirclePainter({
+    required this.circleColor,
+    required this.strokeColor,
+    required this.strokeWidth,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -86,7 +95,7 @@ class CirclePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final strokePaint = Paint()
-      ..color = AppColors.labelColor
+      ..color = strokeColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 

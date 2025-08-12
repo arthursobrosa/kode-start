@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
   }) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.secondaryColor,
+      backgroundColor: AppColors.secondaryColor(context),
       isScrollControlled: true,
       builder: (context) {
         return SizedBox(
@@ -190,6 +190,7 @@ class _HomePageState extends State<HomePage> {
       builder: (_, data, _) {
         return Scaffold(
           drawer: DrawerWidget(
+            backgroundColor: AppColors.secondaryColor(context),
             items: List.generate(_viewModel.drawerOptions.length, (index) {
               final isSelected = index == data.selectedDrawerIndex;
               final drawerOption = _viewModel.drawerOptions[index];
@@ -198,8 +199,8 @@ class _HomePageState extends State<HomePage> {
                 title: Text(
                   drawerOption,
                   style: isSelected
-                      ? TextType.highlighted.textSyle
-                      : TextType.spacedTitle.textSyle,
+                      ? TextType.highlighted.textSyle(context)
+                      : TextType.spacedTitle.textSyle(context),
                 ),
                 onTap: () {
                   _viewModel.updateSelectedDrawer(index);
@@ -215,22 +216,27 @@ class _HomePageState extends State<HomePage> {
             }),
           ),
           endDrawer: DrawerWidget(
+            backgroundColor: AppColors.secondaryColor(context),
             items: [
               ListTile(
-                title: Text('Item 1', style: TextType.spacedTitle.textSyle),
+                title: Text(
+                  'Item 1', 
+                  style: TextType.spacedTitle.textSyle(context)
+                ),
                 onTap: () => Void,
               ),
             ],
           ),
-          backgroundColor: AppColors.backgroundColor,
+          backgroundColor: AppColors.backgroundColor(context),
           body: RefreshIndicator(
-            color: AppColors.labelColor,
-            backgroundColor: AppColors.primaryColor,
+            color: AppColors.labelColor(context),
+            backgroundColor: AppColors.primaryColor(context),
             onRefresh: _refresh,
             child: CustomScrollView(
               controller: _scrollController,
               slivers: [
                 SliverAppBarWidget(
+                  backgroundColor: AppColors.secondaryColor(context),
                   leftIcon: _isAppBarCollapsed && _isTextFieldShowing
                       ? SizedBox.shrink()
                       : Builder(
@@ -238,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: Scaffold.of(context).openDrawer,
                             icon: Icon(
                               Icons.menu,
-                              color: AppColors.leftIconColor,
+                              color: AppColors.leftIconColor(context),
                               size: 24,
                             ),
                           ),
@@ -259,8 +265,8 @@ class _HomePageState extends State<HomePage> {
                                     ? Icons.filter_list
                                     : Icons.search,
                                 color: _isTextFieldShowing
-                                    ? AppColors.primaryColor
-                                    : AppColors.rightIconColor,
+                                    ? AppColors.primaryColor(context)
+                                    : AppColors.rightIconColor(context),
                                 size: 24,
                               ),
                             ),
@@ -280,8 +286,8 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(
                                 Icons.search,
                                 color: _isTextFieldShowing
-                                    ? AppColors.primaryColor
-                                    : AppColors.rightIconColor,
+                                    ? AppColors.primaryColor(context)
+                                    : AppColors.rightIconColor(context),
                                 size: 24,
                               ),
                             ),
@@ -294,7 +300,7 @@ class _HomePageState extends State<HomePage> {
                                 onPressed: Scaffold.of(context).openEndDrawer,
                                 icon: Icon(
                                   CupertinoIcons.person_crop_circle,
-                                  color: AppColors.rightIconColor,
+                                  color: AppColors.rightIconColor(context),
                                   size: 24,
                                 ),
                               ),
@@ -307,8 +313,14 @@ class _HomePageState extends State<HomePage> {
                           onEditingComplete: _onEditingComplete,
                           controller: _textEditingController,
                           focusNode: _focusNode,
+                          backgroundColor: AppColors.backgroundColor(context),
+                          cursorColor: AppColors.primaryColor(context),
+                          inputStyle: TextType.inputText.textSyle(context),
+                          placeholderStyle: TextType.inputPlaceholder.textSyle(context),
                         )
-                      : AppTitleWidget(),
+                      : AppTitleWidget(
+                          textStyle: TextType.spacedTitle.textSyle(context)
+                        ),
                 ),
 
                 if (data.isShowingError)
@@ -317,6 +329,9 @@ class _HomePageState extends State<HomePage> {
                     child: EmptyWidget(
                       text: _viewModel.getEmptyText(),
                       onTapButton: _refresh,
+                      textStyle: TextType.spacedTitle.textSyle(context),
+                      buttonTextStyle: TextType.buttonText.textSyle(context),
+                      buttonColor: AppColors.primaryColor(context),
                     ),
                   )
                 else if (data.drawerOptionType == DrawerOptionType.characters)
@@ -332,6 +347,8 @@ class _HomePageState extends State<HomePage> {
                     isLoading: data.isLoading,
                     isConnecting: data.isConnecting,
                     minimumLength: 8,
+                    boxColor: AppColors.primaryColor(context),
+                    textStyle: TextType.boldTitle.textSyle(context),
                   ),
               ],
             ),

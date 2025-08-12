@@ -11,6 +11,10 @@ class TextFieldWidget extends StatelessWidget {
     required this.onEditingComplete,
     required this.controller,
     required this.focusNode,
+    required this.backgroundColor,
+    required this.cursorColor,
+    required this.inputStyle,
+    required this.placeholderStyle
   });
 
   final ValueChanged<String> onChanged;
@@ -18,6 +22,10 @@ class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
   final double toolbarHeight = SliverAppBarWidget.toolbarHeight;
+  final Color backgroundColor;
+  final Color cursorColor;
+  final TextStyle inputStyle;
+  final TextStyle placeholderStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +43,7 @@ class TextFieldWidget extends StatelessWidget {
                 Container(
                   height: toolbarHeight * 0.48,
                   decoration: BoxDecoration(
-                    color: AppColors.backgroundColor,
+                    color: backgroundColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
@@ -47,12 +55,12 @@ class TextFieldWidget extends StatelessWidget {
                     child: TextField(
                       controller: controller,
                       focusNode: focusNode,
-                      style: TextType.inputText.textSyle,
+                      style: inputStyle,
                       onChanged: onChanged,
                       onEditingComplete: onEditingComplete,
                       onSubmitted: (value) => Void,
                       cursorHeight: toolbarHeight * 0.2,
-                      cursorColor: AppColors.primaryColor,
+                      cursorColor: cursorColor,
                       textAlignVertical: TextAlignVertical.center,
                       maxLength: 42,
                       buildCounter:
@@ -65,7 +73,7 @@ class TextFieldWidget extends StatelessWidget {
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Search...',
-                        hintStyle: TextType.inputPlaceholder.textSyle,
+                        hintStyle: placeholderStyle,
                       ),
                     ),
                   ),

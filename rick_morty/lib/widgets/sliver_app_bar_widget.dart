@@ -8,11 +8,13 @@ class SliverAppBarWidget extends StatelessWidget {
     required this.leftIcon,
     required this.actions,
     required this.titleWidget,
+    required this.backgroundColor
   });
 
   final Widget leftIcon;
   final List<Widget>? actions;
   final Widget titleWidget;
+  final Color backgroundColor;
 
   static double get expandedHeight => 131;
   static double get toolbarHeight => 50;
@@ -20,7 +22,7 @@ class SliverAppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      backgroundColor: AppColors.secondaryColor,
+      backgroundColor: backgroundColor,
       pinned: true,
       stretch: true,
       expandedHeight: expandedHeight,
@@ -30,10 +32,7 @@ class SliverAppBarWidget extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: Image.asset(
-            AppImagePaths.logo, 
-            scale: 3
-          ),
+          child: Image.asset(AppImagePaths.logo, scale: 3),
         ),
         title: titleWidget,
         stretchModes: const [StretchMode.fadeTitle, StretchMode.blurBackground],

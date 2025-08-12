@@ -36,6 +36,8 @@ class CharacterCardWidget extends StatelessWidget {
                   return ShimmerWidget.rectangular(
                     height: 160,
                     borderRadius: 10,
+                    baseColor: AppColors.baseShimmerColor(context),
+                    highlightColor: AppColors.highlightShimmerColor(context),
                   );
                 },
               ),
@@ -45,7 +47,7 @@ class CharacterCardWidget extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Container(
-                  color: AppColors.primaryColor,
+                  color: AppColors.primaryColor(context),
                   padding: const EdgeInsets.only(
                     top: 12,
                     left: 16,
@@ -54,7 +56,7 @@ class CharacterCardWidget extends StatelessWidget {
                   ),
                   child: Text(
                     character.name.toUpperCase(),
-                    style: TextType.boldTitle.textSyle,
+                    style: TextType.boldTitle.textSyle(context),
                   ),
                 ),
               ),
