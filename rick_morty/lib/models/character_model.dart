@@ -17,6 +17,8 @@ class CharacterModel {
   final String name;
   final String status;
   final String species;
+  final String gender;
+  final String origin;
   final String lastKnownLocation;
   final int? firstEpisodeId;
   final String imagePath;
@@ -26,19 +28,25 @@ class CharacterModel {
     required this.name,
     required this.status,
     required this.species,
+    required this.gender,
+    required this.origin,
     required this.lastKnownLocation,
     required this.firstEpisodeId,
     required this.imagePath,
   });
 
   factory CharacterModel.fromJson(Map<String, dynamic> json) {
-    List<String> episodeUrls = List.from(json['episode']).map((element) => element.toString()).toList();
+    List<String> episodeUrls = List.from(
+      json['episode'],
+    ).map((element) => element.toString()).toList();
 
     return CharacterModel(
       id: json['id'],
       name: json['name'],
       status: json['status'],
       species: json['species'],
+      gender: json['gender'],
+      origin: json['origin']['name'],
       lastKnownLocation: json['location']['name'],
       firstEpisodeId: CharacterModel.getFirstEpisodeId(episodeUrls),
       imagePath: json['image'],

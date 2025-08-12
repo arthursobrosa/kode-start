@@ -2,19 +2,46 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/models/episode_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
-import 'package:rick_morty/theme/card_text_type.dart';
+import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/utils/string_extension.dart';
 import 'package:rick_morty/widgets/status_circle_widget.dart';
 
 class DetailedCardWidget extends StatelessWidget {
   const DetailedCardWidget({
-    super.key, 
+    super.key,
     required this.character,
-    required this.episode
+    required this.episode,
   });
 
   final CharacterModel character;
   final EpisodeModel? episode;
+
+  List<Widget> detailedInfoWidgets() {
+    List<Widget> children = [];
+    Map<String, String> map = {};
+
+    map['Gender:'] = character.gender;
+    map['Origin:'] = character.origin;
+    map['Last known location:'] = character.lastKnownLocation;
+    map['First seen in:'] = episode != null ? episode!.name : 'Unknown';
+
+    map.forEach((key, value) {
+      Widget keyWidget = Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Text(key, style: TextType.subDescription.textSyle,),
+      );
+
+      Widget valueWidget = Padding(
+        padding: const EdgeInsets.only(top: 4),
+        child: Text(value, style: TextType.description.textSyle),
+      );
+
+      children.add(keyWidget);
+      children.add(valueWidget);
+    });
+
+    return children;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,40 +82,13 @@ class DetailedCardWidget extends StatelessWidget {
                             padding: const EdgeInsets.only(left: 8),
                             child: Text(
                               '${character.status.capitalize()} - ${character.species}',
-                              style: CardTextType.description.textSyle,
+                              style: TextType.description.textSyle,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Text(
-                        'Last known location:',
-                        style: CardTextType.subDescription.textSyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        character.lastKnownLocation,
-                        style: CardTextType.description.textSyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Text(
-                        'First seen in:',
-                        style: CardTextType.subDescription.textSyle,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        episode != null ? episode!.name : 'Unknwon',
-                        style: CardTextType.description.textSyle,
-                      ),
-                    ),
+                    ...detailedInfoWidgets(),
                   ],
                 ),
               ),
