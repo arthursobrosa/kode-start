@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/pages/home_page.dart';
 
 void main() {
@@ -13,12 +14,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      onGenerateRoute: (routeSettings) {
+        switch (routeSettings.name) {
+          case HomePage.routeId:
+            return MaterialPageRoute(
+              settings: routeSettings,
+              builder: (context) => HomePage(),
+            );
+          case DetailsPage.routeId:
+            return MaterialPageRoute(
+              settings: routeSettings,
+              builder: (context) => DetailsPage(),
+            );
+          default:
+            return null;
+        }
+      },
       home: const HomePage(),
       theme: ThemeData(
-        textTheme: GoogleFonts.latoTextTheme(
-          Theme.of(context).textTheme
-        ),
-      )
+        textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+      ),
     );
   }
 }

@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarWidget({super.key, required this.isDetailsPage});
+  const AppBarWidget({
+    super.key, 
+    required this.isDetailsPage,
+    required this.onTapLeftIcon
+  });
 
   final bool isDetailsPage;
+  final void Function() onTapLeftIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +26,25 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(
-                isDetailsPage ? Icons.arrow_back : Icons.menu, 
-                color: AppColors.leftIconColor,
-                size: 24,
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: onTapLeftIcon,
+                  child: Icon(
+                    isDetailsPage ? Icons.arrow_back : Icons.menu,
+                    color: AppColors.leftIconColor,
+                    size: 24,
+                  ),
+                ),
               ),
+              // IconButton(
+              //   icon: Icon(
+              //     isDetailsPage ? Icons.arrow_back : Icons.menu, 
+              //     color: AppColors.leftIconColor,
+              //     size: 24,
+              //   ),
+              //   onPressed: () => print("foo"),
+              // ),
               Expanded(
                 child: Column(
                   children: [
