@@ -1,27 +1,27 @@
 import 'package:flutter/widgets.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 
-enum CardTextStyle { title, description, subDescription }
+enum CardTextType { title, description, subDescription }
 
-extension CardTextStyleProperties on CardTextStyle {
+extension CardTextTypeProperties on CardTextType {
   double get fontSize {
     switch (this) {
-      case CardTextStyle.title:
+      case CardTextType.title:
         return 14.5;
-      case CardTextStyle.description:
+      case CardTextType.description:
         return 12.5;
-      case CardTextStyle.subDescription:
+      case CardTextType.subDescription:
         return 12.5;
     }
   }
 
   FontWeight get fontWeight {
     switch (this) {
-      case CardTextStyle.title:
+      case CardTextType.title:
         return FontWeight.w900; // black
-      case CardTextStyle.description:
+      case CardTextType.description:
         return FontWeight.w500; // medium
-      case CardTextStyle.subDescription:
+      case CardTextType.subDescription:
         return FontWeight.w300; // light
     }
   }
