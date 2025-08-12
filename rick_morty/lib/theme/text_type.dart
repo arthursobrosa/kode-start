@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 
-enum TextType { appTitle, title, description, subDescription }
+enum TextType {
+  appTitle,
+  title,
+  description,
+  subDescription,
+  textField,
+  textFieldHint,
+}
 
 extension TextTypeProperties on TextType {
   double get fontSize {
@@ -14,6 +21,10 @@ extension TextTypeProperties on TextType {
       case TextType.description:
         return 12.5;
       case TextType.subDescription:
+        return 12.5;
+      case TextType.textField:
+        return 12.5;
+      case TextType.textFieldHint:
         return 12.5;
     }
   }
@@ -27,6 +38,10 @@ extension TextTypeProperties on TextType {
       case TextType.description:
         return FontWeight.w500; // medium
       case TextType.subDescription:
+        return FontWeight.w300; // light
+      case TextType.textField:
+        return FontWeight.w800; // medium
+      case TextType.textFieldHint:
         return FontWeight.w300; // light
     }
   }
@@ -44,6 +59,6 @@ extension TextTypeProperties on TextType {
     color: AppColors.textColor,
     fontSize: fontSize,
     fontWeight: fontWeight,
-    letterSpacing: letterSpacing
+    letterSpacing: letterSpacing,
   );
 }
