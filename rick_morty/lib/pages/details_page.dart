@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/pages/details_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/detailed_card_widget.dart';
@@ -36,6 +37,7 @@ class DetailsPageState extends State<DetailsPage> {
       valueListenable: _viewModel.detailsData,
       builder: (_, data, _) {
         return Scaffold(
+          endDrawer: DrawerWidget(),
           backgroundColor: AppColors.backgroundColor,
           body: CustomScrollView(
             slivers: [
@@ -49,14 +51,16 @@ class DetailsPageState extends State<DetailsPage> {
                   ),
                 ),
                 actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: IconButton(
-                      onPressed: () => Void,
-                      icon: Icon(
-                        CupertinoIcons.person_crop_circle,
-                        color: AppColors.rightIconColor,
-                        size: 24,
+                  Builder(
+                    builder: (context) => Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: IconButton(
+                        onPressed: Scaffold.of(context).openEndDrawer,
+                        icon: Icon(
+                          CupertinoIcons.person_crop_circle,
+                          color: AppColors.rightIconColor,
+                          size: 24,
+                        ),
                       ),
                     ),
                   ),

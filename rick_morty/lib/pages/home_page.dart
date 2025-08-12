@@ -8,6 +8,7 @@ import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/pages/home_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/empty_widget.dart';
 import 'package:rick_morty/widgets/filters_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
@@ -210,6 +211,8 @@ class _HomePageState extends State<HomePage> {
       valueListenable: _viewModel.homeData,
       builder: (_, data, _) {
         return Scaffold(
+          drawer: DrawerWidget(),
+          endDrawer: DrawerWidget(),
           backgroundColor: AppColors.backgroundColor,
           body: RefreshIndicator(
             color: Colors.white,
@@ -220,15 +223,17 @@ class _HomePageState extends State<HomePage> {
               slivers: [
                 SliverAppBarWidget(
                   leftIcon: _isAppBarCollapsed && _isTextFieldShowing
-                      ? SizedBox.shrink()
-                      : IconButton(
-                          onPressed: () => Void,
-                          icon: Icon(
-                            Icons.menu,
-                            color: AppColors.leftIconColor,
-                            size: 24,
-                          ),
-                        ),
+                    ? SizedBox.shrink()
+                    : Builder(
+                      builder: (context) => IconButton(
+                        onPressed: Scaffold.of(context).openDrawer, 
+                        icon: Icon(
+                                Icons.menu,
+                                color: AppColors.leftIconColor,
+                                size: 24,
+                              )
+                      ),
+                    ),
                   actions: _isAppBarCollapsed
                       ? [
                           Padding(
@@ -270,14 +275,16 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
 
-                          Padding(
-                            padding: const EdgeInsets.only(right: 6),
-                            child: IconButton(
-                              onPressed: () => Void,
-                              icon: Icon(
-                                CupertinoIcons.person_crop_circle,
-                                color: AppColors.rightIconColor,
-                                size: 24,
+                          Builder(
+                            builder: (context) => Padding(
+                              padding: const EdgeInsets.only(right: 6),
+                              child: IconButton(
+                                onPressed: Scaffold.of(context).openEndDrawer,
+                                icon: Icon(
+                                  CupertinoIcons.person_crop_circle,
+                                  color: AppColors.rightIconColor,
+                                  size: 24,
+                                ),
                               ),
                             ),
                           ),
