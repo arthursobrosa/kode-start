@@ -1,9 +1,8 @@
 import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/models/character_model.dart';
-import 'package:rick_morty/models/episode_model.dart';
+import 'package:rick_morty/pages/details_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
@@ -22,91 +21,76 @@ class DetailsPage extends StatefulWidget {
 }
 
 class DetailsPageState extends State<DetailsPage> {
-  late Future<EpisodeModel?> episodeFuture;
+  late final DetailsViewModel _viewModel;
 
   @override
   void initState() {
     super.initState();
-    episodeFuture = getEpisodeFuture();
-  }
-
-  Future<EpisodeModel?> getEpisodeFuture() async {
-    int? firstEpisodeId = widget.character.firstEpisodeId;
-
-    if (firstEpisodeId != null) {
-      try {
-        return await Repository.fetchEntity(
-          '${EpisodeModel.endPoint}/$firstEpisodeId',
-          (json) => EpisodeModel.fromJson(json),
-        );
-      } on ApiException catch (error) {
-        print(error);
-        return Future.value(null);
-      }
-    }
-
-    return Future.value(null);
+    _viewModel = DetailsViewModel(character: widget.character);
+    _viewModel.fetchEpisode();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBarWidget(
-            leftIcon: IconButton(
-              onPressed: () => Navigator.of(context).pop(),
-              icon: Icon(
-                Icons.arrow_back,
-                color: AppColors.leftIconColor,
-                size: 24,
-              ),
-            ),
-            actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: IconButton(
-                  onPressed: () => Void,
+    return ValueListenableBuilder<DetailsData>(
+      valueListenable: _viewModel.detailsData,
+      builder: (_, data, _) {
+        return Scaffold(
+          backgroundColor: AppColors.backgroundColor,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBarWidget(
+                leftIcon: IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(
-                    CupertinoIcons.person_crop_circle,
-                    color: AppColors.rightIconColor,
+                    Icons.arrow_back,
+                    color: AppColors.leftIconColor,
                     size: 24,
                   ),
                 ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: IconButton(
+                      onPressed: () => Void,
+                      icon: Icon(
+                        CupertinoIcons.person_crop_circle,
+                        color: AppColors.rightIconColor,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ],
+                titleWidget: AppTitleWidget(),
+              ),
+
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    if (data.isLoading)
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          top: 17,
+                        ),
+                        child: ShimmerWidget.rectangular(
+                          height: 500,
+                          borderRadius: 10,
+                        ),
+                      )
+                    else
+                      DetailedCardWidget(
+                        character: _viewModel.character,
+                        episode: data.episode,
+                      ),
+                  ],
+                ),
               ),
             ],
-            titleWidget: AppTitleWidget(),
           ),
-
-          SliverToBoxAdapter(
-            child: FutureBuilder(
-              future: episodeFuture,
-              builder: (context, AsyncSnapshot<EpisodeModel?> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 17, left: 20, right: 20),
-                    child: ShimmerWidget.rectangular(
-                      height: 500,
-                      borderRadius: 10,
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Erro: ${snapshot.error}'));
-                } else if (snapshot.hasData) {
-                  final episode = snapshot.data! as EpisodeModel?;
-                  return DetailedCardWidget(
-                    character: widget.character,
-                    episode: episode,
-                  );
-                } else {
-                  return Center(child: Text('Nenhum dado encontrado'));
-                }
-              },
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

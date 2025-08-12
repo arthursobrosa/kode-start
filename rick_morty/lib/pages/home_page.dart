@@ -190,6 +190,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+
+    _scrollController.removeListener(_scrollListener);
+    _scrollController.removeListener(_appBarListener);
+    _scrollController.dispose();
+
+    _textEditingController.dispose();
+
+    _focusNode.dispose();
+
+    _debounce?.cancel();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<HomeData>(
       valueListenable: _viewModel.homeData,
