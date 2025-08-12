@@ -9,6 +9,7 @@ enum TextType {
   subDescription,
   textField,
   textFieldHint,
+  button,
 }
 
 extension TextTypeProperties on TextType {
@@ -26,6 +27,8 @@ extension TextTypeProperties on TextType {
         return 12.5;
       case TextType.textFieldHint:
         return 12.5;
+      case TextType.button:
+        return 14.5;
     }
   }
 
@@ -40,9 +43,11 @@ extension TextTypeProperties on TextType {
       case TextType.subDescription:
         return FontWeight.w300; // light
       case TextType.textField:
-        return FontWeight.w800; // medium
+        return FontWeight.w800; // bold
       case TextType.textFieldHint:
         return FontWeight.w300; // light
+      case TextType.button:
+        return FontWeight.w800; // bold
     }
   }
 

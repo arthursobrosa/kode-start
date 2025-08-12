@@ -22,7 +22,7 @@ class DetailedCardWidget extends StatelessWidget {
 
     map['Gender:'] = character.gender;
     map['Origin:'] = character.origin.capitalize();
-    map['Last known location:'] = character.lastKnownLocation;
+    map['Last known location:'] = character.lastKnownLocation.capitalize();
     map['First seen in:'] = episode != null ? episode!.name : 'Unknown';
 
     map.forEach((key, value) {

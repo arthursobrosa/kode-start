@@ -10,12 +10,14 @@ class TextFieldWidget extends StatelessWidget {
     super.key,
     required this.onChanged,
     required this.onEditingComplete,
-    required this.controller
+    required this.controller,
+    required this.focusNode
   });
 
   final ValueChanged<String> onChanged;
   final Function() onEditingComplete;
   final TextEditingController controller;
+  final FocusNode focusNode;
   final double toolbarHeight = SliverAppBarWidget.toolbarHeight;
 
   @override
@@ -45,6 +47,7 @@ class TextFieldWidget extends StatelessWidget {
                     height: toolbarHeight * 0.48,
                     child: TextField(
                       controller: controller,
+                      focusNode: focusNode,
                       style: TextType.textField.textSyle,
                       onChanged: onChanged,
                       onEditingComplete: onEditingComplete,

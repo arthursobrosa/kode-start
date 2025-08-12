@@ -37,6 +37,8 @@ class CharacterModel {
     required this.imagePath,
   });
 
+  static const String endPoint = '/character';
+
   factory CharacterModel.fromJson(Map<String, dynamic> json) {
     List<String> episodeUrls = List.from(
       json['episode'],

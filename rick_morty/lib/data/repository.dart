@@ -1,38 +1,62 @@
 import 'package:dio/dio.dart';
-import 'package:rick_morty/models/character_model.dart';
-import 'package:rick_morty/models/episode_model.dart';
 
 abstract class Repository {
   static final _dio = Dio(
     BaseOptions(baseUrl: 'https://rickandmortyapi.com/api'),
   );
 
-  static Future<PaginatedCharacters> getPaginatedCharacters({
-    required int page,
-    required (String, dynamic)? property,
+  static Future<T> fetchEntity<T>(
+    String endpoint,
+    T Function(Map<String, dynamic>) fromJson, {
+    int? page,
+    (String, dynamic)? property,
   }) async {
-    Map<String, dynamic> queryParameters = {};
-    queryParameters['page'] = page;
+    try {
+      Map<String, dynamic> queryParameters = {};
 
-    if (property != null) {
-      queryParameters[property.$1] = property.$2;
+      if (page != null) {
+        queryParameters['page'] = page;
+      }
+
+      if (property != null) {
+        queryParameters[property.$1] = property.$2;
+      }
+
+      final response = await _dio.get(
+        endpoint,
+        queryParameters: queryParameters,
+      );
+
+      return fromJson(response.data);
+    } on DioException catch (dioError) {
+      if (dioError.response != null) {
+        switch (dioError.response!.statusCode) {
+          case 404:
+            throw ApiException('Entity not found', statusCode: 404);
+          case 500:
+            throw ApiException('Internal server error.', statusCode: 500);
+          default:
+            throw ApiException(
+              'Unknown error: ${dioError.response!.statusCode}',
+              statusCode: dioError.response!.statusCode,
+            );
+        }
+      } else {
+        throw ApiException('Connection error: ${dioError.message}');
+      }
+    } catch (error) {
+      throw ApiException('Unexpected error: $error');
     }
-
-    var response = await _dio.get(
-      '/character',
-      queryParameters: queryParameters,
-    );
-
-    return PaginatedCharacters.fromJson(response.data);
   }
+}
 
-  static Future<CharacterModel> getCharacter(int characterId) async {
-    var response = await _dio.get('/character/$characterId');
-    return CharacterModel.fromJson(response.data);
-  }
+class ApiException implements Exception {
+  final String message;
+  final int? statusCode;
 
-  static Future<EpisodeModel> getEpisode(int episodeId) async {
-    var response = await _dio.get('/episode/$episodeId');
-    return EpisodeModel.fromJson(response.data);
-  }
+  ApiException(this.message, {this.statusCode});
+
+  @override
+  String toString() =>
+      'ApiException(statusCode: $statusCode, message: $message)';
 }

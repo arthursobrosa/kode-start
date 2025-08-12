@@ -26,12 +26,26 @@ class DetailsPageState extends State<DetailsPage> {
 
   @override
   void initState() {
-    int? firstEpisodeId = widget.character.firstEpisodeId;
-    episodeFuture = firstEpisodeId != null
-        ? Repository.getEpisode(firstEpisodeId)
-        : Future.value(null);
-
     super.initState();
+    episodeFuture = getEpisodeFuture();
+  }
+
+  Future<EpisodeModel?> getEpisodeFuture() async {
+    int? firstEpisodeId = widget.character.firstEpisodeId;
+
+    if (firstEpisodeId != null) {
+      try {
+        return await Repository.fetchEntity(
+          '${EpisodeModel.endPoint}/$firstEpisodeId',
+          (json) => EpisodeModel.fromJson(json),
+        );
+      } on ApiException catch (error) {
+        print(error);
+        return Future.value(null);
+      }
+    }
+
+    return Future.value(null);
   }
 
   @override
@@ -42,12 +56,12 @@ class DetailsPageState extends State<DetailsPage> {
         slivers: [
           SliverAppBarWidget(
             leftIcon: IconButton(
-              onPressed: () => Navigator.of(context).pop(), 
+              onPressed: () => Navigator.of(context).pop(),
               icon: Icon(
                 Icons.arrow_back,
                 color: AppColors.leftIconColor,
                 size: 24,
-              )
+              ),
             ),
             actions: [
               Padding(
@@ -67,24 +81,30 @@ class DetailsPageState extends State<DetailsPage> {
 
           SliverToBoxAdapter(
             child: FutureBuilder(
-              future: episodeFuture, 
+              future: episodeFuture,
               builder: (context, AsyncSnapshot<EpisodeModel?> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Padding(
                     padding: EdgeInsets.only(top: 17, left: 20, right: 20),
-                    child: ShimmerWidget.rectangular(height: 500, borderRadius: 10),
+                    child: ShimmerWidget.rectangular(
+                      height: 500,
+                      borderRadius: 10,
+                    ),
                   );
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Erro: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
                   final episode = snapshot.data! as EpisodeModel?;
-                  return DetailedCardWidget(character: widget.character, episode: episode);
+                  return DetailedCardWidget(
+                    character: widget.character,
+                    episode: episode,
+                  );
                 } else {
                   return Center(child: Text('Nenhum dado encontrado'));
                 }
-              }
+              },
             ),
-          )
+          ),
         ],
       ),
     );

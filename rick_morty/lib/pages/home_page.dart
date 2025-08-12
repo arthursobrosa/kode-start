@@ -1,10 +1,13 @@
+import 'dart:async';
 import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/widgets/empty_widget.dart';
 import 'package:rick_morty/widgets/filters_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/home_card_widget.dart';
@@ -29,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   int page = 1;
   final ScrollController _scrollController = ScrollController();
   bool _isAppBarCollapsed = false;
-  bool _isTextFieldFocused = false;
+  bool _isTextFieldShowing = false;
   String text = '';
   (String, dynamic)? queryParameterTuple;
   final TextEditingController _textEditingController = TextEditingController();
@@ -37,6 +40,10 @@ class _HomePageState extends State<HomePage> {
       .map((element) => element.name)
       .toList();
   late String selectedFilter;
+  bool _isShowingError = false;
+  ApiException? error;
+  final FocusNode focusNode = FocusNode();
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -63,8 +70,8 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           _isAppBarCollapsed = !isExpanded;
 
-          if (!_isAppBarCollapsed && _isTextFieldFocused && text.isEmpty) {
-            _isTextFieldFocused = false;
+          if (!_isAppBarCollapsed && _isTextFieldShowing && text.isEmpty) {
+            _isTextFieldShowing = false;
           }
         });
       }
@@ -74,8 +81,24 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetch() async {
-    await setNumberOfPages();
-    await fetchCharacters();
+    try {
+      await setNumberOfPages();
+      await fetchCharacters();
+    } on ApiException catch (error) {
+      if (kDebugMode) {
+        print(error);
+      }
+
+      setState(() {
+        this.error = error;
+        _isShowingError = true;
+        _isTextFieldShowing = false;
+        _isAppBarCollapsed = false;
+        text = '';
+        _textEditingController.text = text;
+        queryParameterTuple = null;
+      });
+    }
 
     setState(() {
       isConnecting = false;
@@ -83,12 +106,18 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> setNumberOfPages() async {
-    final paginatedCharacters = await Repository.getPaginatedCharacters(
-      page: 1,
-      property: queryParameterTuple,
-    );
+    try {
+      final paginatedCharacters = await Repository.fetchEntity(
+        CharacterModel.endPoint,
+        (json) => PaginatedCharacters.fromJson(json),
+        page: 1,
+        property: queryParameterTuple,
+      );
 
-    numberOfPages = paginatedCharacters.numberOfPages;
+      numberOfPages = paginatedCharacters.numberOfPages;
+    } on ApiException {
+      rethrow;
+    }
   }
 
   Future<void> fetchCharacters() async {
@@ -105,16 +134,22 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
     });
 
-    final paginatedCharacters = await Repository.getPaginatedCharacters(
-      page: page,
-      property: queryParameterTuple,
-    );
+    try {
+      final paginatedCharacters = await Repository.fetchEntity(
+        CharacterModel.endPoint,
+        (json) => PaginatedCharacters.fromJson(json),
+        page: page,
+        property: queryParameterTuple,
+      );
 
-    setState(() {
-      characters.addAll(paginatedCharacters.results);
-      page++;
-      isLoading = false;
-    });
+      setState(() {
+        characters.addAll(paginatedCharacters.results);
+        page++;
+        isLoading = false;
+      });
+    } on ApiException {
+      rethrow;
+    }
   }
 
   Future<void> _refresh() async {
@@ -124,6 +159,7 @@ class _HomePageState extends State<HomePage> {
       characters = [];
       isLoading = false;
       isConnecting = true;
+      _isShowingError = false;
       page = 1;
     });
 
@@ -143,18 +179,35 @@ class _HomePageState extends State<HomePage> {
     );
 
     setState(() {
-      _isTextFieldFocused = true;
+      _isTextFieldShowing = true;
     });
   }
 
   void onChanged(String text) {
-    this.text = text;
+    setState(() {
+      this.text = text;
+    });
+
+    _debounce?.cancel();
+
+    _debounce = Timer(Duration(milliseconds: 500), () {
+      queryParameterTuple = (selectedFilter, text);
+      _refresh();
+    });
   }
 
   void onEditingComplete() {
-    FocusScope.of(context).unfocus();
+    focusNode.unfocus();
     queryParameterTuple = (selectedFilter, text);
     _refresh();
+  }
+
+  void onFilterSelected(String filter) {
+    setState(() {
+      selectedFilter = filter;
+    });
+
+    onEditingComplete();
   }
 
   void openFilters() {
@@ -170,11 +223,28 @@ class _HomePageState extends State<HomePage> {
                 .map((element) => element.name)
                 .toList(),
             initialSelectedFilter: selectedFilter,
-            onFilterSelected: (filter) => selectedFilter = filter,
+            onFilterSelected: onFilterSelected,
           ),
         );
       },
     );
+  }
+
+  void refreshAndCollapse() {
+    _refresh();
+    collapseAppBar();
+  }
+
+  String? getEmptyText() {
+    if (error?.statusCode == 404) {
+      return 'No character found with that $selectedFilter.';
+    }
+
+    return error?.message;
+  }
+
+  void tryAgain() {
+    fetch();
   }
 
   @override
@@ -189,7 +259,7 @@ class _HomePageState extends State<HomePage> {
           controller: _scrollController,
           slivers: [
             SliverAppBarWidget(
-              leftIcon: _isAppBarCollapsed && _isTextFieldFocused
+              leftIcon: _isAppBarCollapsed && _isTextFieldShowing
                   ? SizedBox.shrink()
                   : IconButton(
                       onPressed: () => Void,
@@ -204,14 +274,14 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(right: 6),
                         child: IconButton(
-                          onPressed: _isTextFieldFocused
+                          onPressed: _isTextFieldShowing
                               ? openFilters
                               : collapseAppBar,
                           icon: Icon(
-                            _isTextFieldFocused
+                            _isTextFieldShowing
                                 ? Icons.filter_list
                                 : Icons.search,
-                            color: _isTextFieldFocused
+                            color: _isTextFieldShowing
                                 ? AppColors.cardFooterColor
                                 : AppColors.rightIconColor,
                             size: 24,
@@ -223,10 +293,12 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: IconButton(
-                          onPressed: collapseAppBar,
+                          onPressed: _isShowingError
+                              ? refreshAndCollapse
+                              : collapseAppBar,
                           icon: Icon(
                             Icons.search,
-                            color: _isTextFieldFocused
+                            color: _isTextFieldShowing
                                 ? AppColors.cardFooterColor
                                 : AppColors.rightIconColor,
                             size: 24,
@@ -246,61 +318,67 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ],
-              titleWidget: _isAppBarCollapsed && _isTextFieldFocused
+              titleWidget: _isAppBarCollapsed && _isTextFieldShowing
                   ? TextFieldWidget(
                       onChanged: onChanged,
                       onEditingComplete: onEditingComplete,
                       controller: _textEditingController,
+                      focusNode: focusNode,
                     )
                   : AppTitleWidget(),
             ),
 
-            isConnecting
-                ? SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
+            if (isConnecting)
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      right: 20,
+                      left: 20,
+                      top: 15,
+                    ),
+                    child: ShimmerWidget.rectangular(
+                      height: 160,
+                      borderRadius: 10,
+                    ),
+                  );
+                }),
+              )
+            else if (_isShowingError)
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: EmptyWidget(text: getEmptyText(), onTapButton: _refresh),
+              )
+            else
+              SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  if (index == characters.length) {
+                    if (isLoading) {
                       return Padding(
-                        padding: const EdgeInsets.only(
-                          right: 20,
-                          left: 20,
-                          top: 15,
-                        ),
-                        child: ShimmerWidget.rectangular(
-                          height: 160,
-                          borderRadius: 10,
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.cardFooterColor,
+                          ),
                         ),
                       );
-                    }),
-                  )
-                : SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      if (index == characters.length) {
-                        if (isLoading) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 15),
-                            child: Center(
-                              child: CircularProgressIndicator(
-                                color: AppColors.cardFooterColor,
-                              ),
-                            ),
-                          );
-                        }
+                    }
 
-                        return SizedBox(height: 40);
-                      }
+                    return SizedBox(height: 40);
+                  }
 
-                      final character = characters[index];
+                  final character = characters[index];
 
-                      return HomeCardWidget(
-                        character: character,
-                        onTap: () {
-                          Navigator.of(context).pushNamed(
-                            DetailsPage.routeId,
-                            arguments: character,
-                          );
-                        },
-                      );
-                    }, childCount: characters.length + 1),
-                  ),
+                  return HomeCardWidget(
+                    character: character,
+                    onTap: () {
+                      Navigator.of(
+                        context,
+                      ).pushNamed(DetailsPage.routeId, arguments: character);
+                    },
+                  );
+                }, childCount: characters.length + 1),
+              ),
           ],
         ),
       ),
@@ -310,6 +388,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _textEditingController.dispose();
+    focusNode.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 }
