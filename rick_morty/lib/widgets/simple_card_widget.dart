@@ -49,7 +49,7 @@ class SimpleCardWidget extends StatelessWidget {
 
           return Container(
             decoration: BoxDecoration(
-              color: AppColors.cardFooterColor,
+              color: AppColors.primaryColor,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Center(

@@ -60,7 +60,7 @@ class DetailedCharacterCardWidget extends StatelessWidget {
               height: 160,
             ),
             Container(
-              color: AppColors.cardFooterColor,
+              color: AppColors.primaryColor,
               child: Padding(
                 padding: const EdgeInsets.only(left: 16, right: 16, bottom: 43),
                 child: Column(

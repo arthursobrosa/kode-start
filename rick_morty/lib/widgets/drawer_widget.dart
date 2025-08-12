@@ -4,18 +4,15 @@ import 'package:rick_morty/theme/app_colors.dart';
 class DrawerWidget extends StatelessWidget {
   final List<Widget> items;
 
-  const DrawerWidget({
-    super.key,
-    required this.items
-  });
+  const DrawerWidget({super.key, required this.items});
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppColors.appBarColor,
+      backgroundColor: AppColors.secondaryColor,
       child: ListView(
         children: [
-          ...items
+          ...items,
           // ListTile(
           //   title: Text('Item 1', style: TextType.appTitle.textSyle),
           //   onTap: () => Void,

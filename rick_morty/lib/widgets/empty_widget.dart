@@ -3,11 +3,7 @@ import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/text_type.dart';
 
 class EmptyWidget extends StatelessWidget {
-  const EmptyWidget({
-    super.key, 
-    required this.text,
-    required this.onTapButton
-  });
+  const EmptyWidget({super.key, required this.text, required this.onTapButton});
 
   final String? text;
   final Function() onTapButton;
@@ -24,7 +20,7 @@ class EmptyWidget extends StatelessWidget {
               text ?? 'Unknown error',
               style: TextType.appTitle.textSyle,
               textAlign: TextAlign.center,
-              maxLines: null, 
+              maxLines: null,
               overflow: TextOverflow.visible,
             ),
 
@@ -41,7 +37,7 @@ class EmptyWidget extends StatelessWidget {
             ElevatedButton(
               onPressed: onTapButton,
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.cardFooterColor,
+                backgroundColor: AppColors.primaryColor,
               ),
               child: Text('Refresh', style: TextType.button.textSyle),
             ),

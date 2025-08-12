@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rick_morty/theme/app_colors.dart';
 
 enum StatusType {
   alive,
@@ -85,7 +86,7 @@ class CirclePainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final strokePaint = Paint()
-      ..color = Colors.white
+      ..color = AppColors.labelColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth;
 

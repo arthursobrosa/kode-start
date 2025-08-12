@@ -70,9 +70,9 @@ extension TextTypeProperties on TextType {
   Color get color {
     switch (this) {
       case TextType.selected:
-        return AppColors.cardFooterColor;
+        return AppColors.primaryColor;
       default:
-        return AppColors.textColor;
+        return AppColors.labelColor;
     }
   }
 

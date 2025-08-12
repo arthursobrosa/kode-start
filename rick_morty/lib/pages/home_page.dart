@@ -129,7 +129,7 @@ class _HomePageState extends State<HomePage> {
   }) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.appBarColor,
+      backgroundColor: AppColors.secondaryColor,
       isScrollControlled: true,
       builder: (context) {
         return SizedBox(
@@ -224,8 +224,8 @@ class _HomePageState extends State<HomePage> {
           ),
           backgroundColor: AppColors.backgroundColor,
           body: RefreshIndicator(
-            color: Colors.white,
-            backgroundColor: AppColors.cardFooterColor,
+            color: AppColors.labelColor,
+            backgroundColor: AppColors.primaryColor,
             onRefresh: _refresh,
             child: CustomScrollView(
               controller: _scrollController,
@@ -259,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                                     ? Icons.filter_list
                                     : Icons.search,
                                 color: _isTextFieldShowing
-                                    ? AppColors.cardFooterColor
+                                    ? AppColors.primaryColor
                                     : AppColors.rightIconColor,
                                 size: 24,
                               ),
@@ -280,7 +280,7 @@ class _HomePageState extends State<HomePage> {
                               icon: Icon(
                                 Icons.search,
                                 color: _isTextFieldShowing
-                                    ? AppColors.cardFooterColor
+                                    ? AppColors.primaryColor
                                     : AppColors.rightIconColor,
                                 size: 24,
                               ),

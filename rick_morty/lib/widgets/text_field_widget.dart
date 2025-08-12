@@ -10,7 +10,7 @@ class TextFieldWidget extends StatelessWidget {
     required this.onChanged,
     required this.onEditingComplete,
     required this.controller,
-    required this.focusNode
+    required this.focusNode,
   });
 
   final ValueChanged<String> onChanged;
@@ -52,7 +52,7 @@ class TextFieldWidget extends StatelessWidget {
                       onEditingComplete: onEditingComplete,
                       onSubmitted: (value) => Void,
                       cursorHeight: toolbarHeight * 0.2,
-                      cursorColor: AppColors.cardFooterColor,
+                      cursorColor: AppColors.primaryColor,
                       textAlignVertical: TextAlignVertical.center,
                       maxLength: 42,
                       buildCounter:

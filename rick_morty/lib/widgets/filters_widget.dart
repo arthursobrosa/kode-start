@@ -33,11 +33,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
 
   Widget getFiltersRow() {
     return Padding(
-      padding: const EdgeInsets.only(
-        left: 20,
-        right: 20,
-        bottom: 20
-      ),
+      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(widget.filters.length, (index) {
@@ -91,9 +87,7 @@ class FilterWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: isSelected
-            ? AppColors.cardFooterColor
-            : AppColors.backgroundColor,
+        color: isSelected ? AppColors.primaryColor : AppColors.backgroundColor,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(text, style: TextType.description.textSyle),

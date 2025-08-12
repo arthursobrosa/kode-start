@@ -34,7 +34,7 @@ class CharactersListWidget extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 15),
                 child: Center(
                   child: CircularProgressIndicator(
-                    color: AppColors.cardFooterColor,
+                    color: AppColors.primaryColor,
                   ),
                 ),
               );

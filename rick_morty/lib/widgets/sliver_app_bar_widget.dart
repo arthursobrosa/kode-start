@@ -19,7 +19,7 @@ class SliverAppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      backgroundColor: AppColors.appBarColor,
+      backgroundColor: AppColors.secondaryColor,
       pinned: true,
       stretch: true,
       expandedHeight: expandedHeight,

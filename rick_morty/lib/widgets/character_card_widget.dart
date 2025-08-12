@@ -45,7 +45,7 @@ class CharacterCardWidget extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Container(
-                  color: AppColors.cardFooterColor,
+                  color: AppColors.primaryColor,
                   padding: const EdgeInsets.only(
                     top: 12,
                     left: 16,
