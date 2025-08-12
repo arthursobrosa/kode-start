@@ -53,9 +53,17 @@ Caso não haja resultados para a pesquisa, o usuário recebe uma empty view:
 
 ![settings](https://github.com/user-attachments/assets/c0f8db31-0129-4f31-a8ca-a76dce14798d)
 
+- **Dark/Light Mode**: ao entrar na página de configurações o usuário pode escolher mudar de dark para light mode e vice-versa;
+  
+![light](https://github.com/user-attachments/assets/174c14c2-2cc2-4d96-903c-66551d327c69)
+
+- **Detalhes**: todos os componentes que mostram alguma entidade (personagem, episódio ou localização) possuem um shimmer para ocupar seu espaço durante o carregamento. E a AppBar pode ser
+  expandida ou colapsada.
 
 
+## Arquitetura e organização do código
 
-
+-**MVVM**: para esse desafio, decidi utilizar view models que cuidassem da lógica de negócios das minhas pages;
+-**Organização do código**: dividi os arquivos em pastas 
 
  
