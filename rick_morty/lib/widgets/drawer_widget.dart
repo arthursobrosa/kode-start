@@ -1,11 +1,13 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
-import 'package:rick_morty/theme/text_type.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({super.key});
+  final List<Widget> items;
+
+  const DrawerWidget({
+    super.key,
+    required this.items
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,27 +15,19 @@ class DrawerWidget extends StatelessWidget {
       backgroundColor: AppColors.appBarColor,
       child: ListView(
         children: [
-          ListTile(
-            title: Text(
-              'Item 1',
-              style: TextType.appTitle.textSyle,
-            ),
-            onTap: () => Void,
-          ),
-          ListTile(
-            title: Text(
-              'Item 2',
-              style: TextType.appTitle.textSyle,
-            ),
-            onTap: () => Void,
-          ),
-          ListTile(
-            title: Text(
-              'Item 3',
-              style: TextType.appTitle.textSyle,
-            ),
-            onTap: () => Void,
-          )
+          ...items
+          // ListTile(
+          //   title: Text('Item 1', style: TextType.appTitle.textSyle),
+          //   onTap: () => Void,
+          // ),
+          // ListTile(
+          //   title: Text('Item 2', style: TextType.appTitle.textSyle),
+          //   onTap: () => Void,
+          // ),
+          // ListTile(
+          //   title: Text('Item 3', style: TextType.appTitle.textSyle),
+          //   onTap: () => Void,
+          // ),
         ],
       ),
     );

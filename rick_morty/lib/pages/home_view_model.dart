@@ -7,12 +7,14 @@ class HomeData {
   bool isLoading;
   bool isConnecting;
   bool isShowingError;
+  int selectedDrawerIndex;
 
   HomeData({
     required this.characters,
     required this.isLoading,
     required this.isConnecting,
     required this.isShowingError,
+    required this.selectedDrawerIndex,
   });
 
   HomeData copyWith({
@@ -20,12 +22,14 @@ class HomeData {
     bool? isLoading,
     bool? isConnecting,
     bool? isShowingError,
+    int? selectedDrawerIndex,
   }) {
     return HomeData(
       characters: characters ?? this.characters,
       isLoading: isLoading ?? this.isLoading,
       isConnecting: isConnecting ?? this.isConnecting,
       isShowingError: isShowingError ?? this.isShowingError,
+      selectedDrawerIndex: selectedDrawerIndex ?? this.selectedDrawerIndex,
     );
   }
 }
@@ -37,6 +41,7 @@ class HomeViewModel {
       isLoading: false,
       isConnecting: true,
       isShowingError: false,
+      selectedDrawerIndex: 0,
     ),
   );
 
@@ -44,6 +49,8 @@ class HomeViewModel {
   int _numberOfPages = 0;
   int _page = 1;
   ApiException? _error;
+
+  List<String> drawerOptions = ['Characters', 'Episodes', 'Locations'];
 
   Future<void> fetch() async {
     try {
@@ -136,5 +143,9 @@ class HomeViewModel {
 
   void changeConnection({required bool isConnecting}) {
     homeData.value = homeData.value.copyWith(isConnecting: isConnecting);
+  }
+
+  void updateSelectedDrawer(int index) {
+    homeData.value = homeData.value.copyWith(selectedDrawerIndex: index);
   }
 }

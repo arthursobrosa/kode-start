@@ -10,6 +10,7 @@ enum TextType {
   textField,
   textFieldHint,
   button,
+  selected,
 }
 
 extension TextTypeProperties on TextType {
@@ -29,6 +30,8 @@ extension TextTypeProperties on TextType {
         return 12.5;
       case TextType.button:
         return 14.5;
+      case TextType.selected:
+        return 18;
     }
   }
 
@@ -48,6 +51,8 @@ extension TextTypeProperties on TextType {
         return FontWeight.w300; // light
       case TextType.button:
         return FontWeight.w800; // bold
+      case TextType.selected:
+        return FontWeight.w800; // bold
     }
   }
 
@@ -55,13 +60,24 @@ extension TextTypeProperties on TextType {
     switch (this) {
       case TextType.appTitle:
         return fontSize * 0.165;
+      case TextType.selected:
+        return fontSize * 0.165;
       default:
         return 0;
     }
   }
 
+  Color get color {
+    switch (this) {
+      case TextType.selected:
+        return AppColors.cardFooterColor;
+      default:
+        return AppColors.textColor;
+    }
+  }
+
   TextStyle get textSyle => GoogleFonts.lato(
-    color: AppColors.textColor,
+    color: color,
     fontSize: fontSize,
     fontWeight: fontWeight,
     letterSpacing: letterSpacing,

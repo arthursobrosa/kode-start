@@ -8,6 +8,7 @@ import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/pages/home_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/empty_widget.dart';
 import 'package:rick_morty/widgets/filters_widget.dart';
@@ -211,8 +212,30 @@ class _HomePageState extends State<HomePage> {
       valueListenable: _viewModel.homeData,
       builder: (_, data, _) {
         return Scaffold(
-          drawer: DrawerWidget(),
-          endDrawer: DrawerWidget(),
+          drawer: DrawerWidget(
+            items: List.generate(_viewModel.drawerOptions.length, (index) {
+              final isSelected = index == data.selectedDrawerIndex;
+              final drawerOption = _viewModel.drawerOptions[index];
+
+              return ListTile(
+                title: Text(
+                  drawerOption,
+                  style: isSelected
+                      ? TextType.selected.textSyle
+                      : TextType.appTitle.textSyle,
+                ),
+                onTap: () => _viewModel.updateSelectedDrawer(index),
+              );
+            }),
+          ),
+          endDrawer: DrawerWidget(
+            items: [
+              ListTile(
+                title: Text('Item 1', style: TextType.appTitle.textSyle),
+                onTap: () => Void,
+              ),
+            ],
+          ),
           backgroundColor: AppColors.backgroundColor,
           body: RefreshIndicator(
             color: Colors.white,
@@ -223,17 +246,17 @@ class _HomePageState extends State<HomePage> {
               slivers: [
                 SliverAppBarWidget(
                   leftIcon: _isAppBarCollapsed && _isTextFieldShowing
-                    ? SizedBox.shrink()
-                    : Builder(
-                      builder: (context) => IconButton(
-                        onPressed: Scaffold.of(context).openDrawer, 
-                        icon: Icon(
-                                Icons.menu,
-                                color: AppColors.leftIconColor,
-                                size: 24,
-                              )
-                      ),
-                    ),
+                      ? SizedBox.shrink()
+                      : Builder(
+                          builder: (context) => IconButton(
+                            onPressed: Scaffold.of(context).openDrawer,
+                            icon: Icon(
+                              Icons.menu,
+                              color: AppColors.leftIconColor,
+                              size: 24,
+                            ),
+                          ),
+                        ),
                   actions: _isAppBarCollapsed
                       ? [
                           Padding(

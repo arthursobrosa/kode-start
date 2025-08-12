@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/pages/details_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
@@ -37,7 +38,14 @@ class DetailsPageState extends State<DetailsPage> {
       valueListenable: _viewModel.detailsData,
       builder: (_, data, _) {
         return Scaffold(
-          endDrawer: DrawerWidget(),
+          endDrawer: DrawerWidget(
+            items: [
+              ListTile(
+                title: Text('Item 1', style: TextType.appTitle.textSyle),
+                onTap: () => Void,
+              )
+            ],
+          ),
           backgroundColor: AppColors.backgroundColor,
           body: CustomScrollView(
             slivers: [
