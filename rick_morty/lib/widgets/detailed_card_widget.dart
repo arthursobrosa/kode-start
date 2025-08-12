@@ -3,6 +3,7 @@ import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/card_text_type.dart';
 import 'package:rick_morty/utils/string_extension.dart';
+import 'package:rick_morty/widgets/status_circle_widget.dart';
 
 class DetailedCardWidget extends StatelessWidget {
   const DetailedCardWidget({super.key, required this.character});
@@ -40,9 +41,17 @@ class DetailedCardWidget extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 38),
-                      child: Text(
-                        '${character.status.capitalize()} - ${character.species}',
-                        style: CardTextType.description.textSyle,
+                      child: Row(
+                        children: [
+                          StatusCircleWidget(
+                            status: character.status, 
+                            circleSize: Size(8, 8), strokeWidth: 1
+                          ),
+                          Text(
+                            '${character.status.capitalize()} - ${character.species}',
+                            style: CardTextType.description.textSyle,
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
