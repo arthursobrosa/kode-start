@@ -1,11 +1,10 @@
 import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:rick_morty/models/character_model.dart';
 import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/pages/details_page.dart';
 import 'package:rick_morty/theme/app_colors.dart';
-import 'package:rick_morty/widgets/app_bar_widget.dart';
+import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/home_card_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 
@@ -43,7 +42,9 @@ class _HomePageState extends State<HomePage> {
   Future<void> _init() async {
     await setNumberOfPages();
     await fetchCharacters();
-    isConnecting = false;
+    setState(() {
+      isConnecting = false;
+    });
   }
 
   Future<void> setNumberOfPages() async {
@@ -56,7 +57,9 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchCharacters() async {
     if (page >= numberOfPages) {
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
       return;
     }
 
@@ -77,72 +80,88 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _handleRefresh() async {
-    characters = [];
-    isLoading = false;
-    isConnecting = true;
-    page = 1;
+  Future<void> _refresh() async {
+    await WidgetsBinding.instance.endOfFrame;
+
+    setState(() {
+      characters = [];
+      isLoading = false;
+      isConnecting = true;
+      page = 1;
+    });
+
     await fetchCharacters();
-    isConnecting = false;
+
+    setState(() {
+      isConnecting = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
-      appBar: AppBarWidget(isDetailsPage: false, onTapLeftIcon: () => Void),
-      body: Column(
-        children: [
-          isConnecting
-              ? Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, index) {
+      body: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: AppColors.cardFooterColor,
+        onRefresh: _refresh,
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBarWidget(
+              isDetailsPage: false,
+              onTapLeftIcon: () => Void,
+              onTapRightIcon: () => Void,
+            ),
+
+            isConnecting
+                ? SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
                       return Padding(
-                        padding: EdgeInsets.only(right: 20, left: 20, top: 15),
+                        padding: const EdgeInsets.only(
+                          right: 20,
+                          left: 20,
+                          top: 15,
+                        ),
                         child: ShimmerWidget.rectangular(
                           height: 160,
                           borderRadius: 10,
                         ),
                       );
-                    },
-                    itemCount: 5,
-                  ),
-                )
-              : Expanded(
-                  child: LiquidPullToRefresh(
-                    color: AppColors.backgroundColor,
-                    onRefresh: _handleRefresh,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: characters.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index == characters.length) {
-                          if (isLoading) {
-                            return Padding(
-                              padding: const EdgeInsets.only(top: 15),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-                    
-                          return SizedBox.shrink();
+                    }),
+                  )
+                : SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      if (index == characters.length) {
+                        if (isLoading) {
+                          return Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.cardFooterColor,
+                              ),
+                            ),
+                          );
                         }
-                    
-                        final character = characters[index];
-                    
-                        return HomeCardWidget(
-                          character: character,
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                              DetailsPage.routeId,
-                              arguments: character,
-                            );
-                          },
-                        );
-                      },
-                    ),
+
+                        return SizedBox(height: 40);
+                      }
+
+                      final character = characters[index];
+
+                      return HomeCardWidget(
+                        character: character,
+                        onTap: () {
+                          Navigator.of(context).pushNamed(
+                            DetailsPage.routeId,
+                            arguments: character,
+                          );
+                        },
+                      );
+                    }, childCount: characters.length + 1),
                   ),
-              ),
-        ],
+          ],
+        ),
       ),
     );
   }
