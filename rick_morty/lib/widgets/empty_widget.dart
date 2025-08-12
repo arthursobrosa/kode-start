@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/app_image_paths.dart';
 import 'package:rick_morty/theme/text_type.dart';
 
 class EmptyWidget extends StatelessWidget {
@@ -27,7 +28,7 @@ class EmptyWidget extends StatelessWidget {
             const SizedBox(height: 24),
 
             Image.asset(
-              'assets/images/empty.png',
+              AppImagePaths.empty,
               height: 180,
               fit: BoxFit.contain,
             ),

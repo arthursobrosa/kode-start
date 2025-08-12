@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/app_image_paths.dart';
 
 class SliverAppBarWidget extends StatelessWidget {
   const SliverAppBarWidget({
@@ -29,7 +30,10 @@ class SliverAppBarWidget extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         background: Padding(
           padding: const EdgeInsets.only(top: 20),
-          child: Image.asset('assets/images/logo.png', scale: 3),
+          child: Image.asset(
+            AppImagePaths.logo, 
+            scale: 3
+          ),
         ),
         title: titleWidget,
         stretchModes: const [StretchMode.fadeTitle, StretchMode.blurBackground],
