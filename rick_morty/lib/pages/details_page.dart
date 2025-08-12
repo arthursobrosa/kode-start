@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/data/repository.dart';
 import 'package:rick_morty/models/character_model.dart';
@@ -7,6 +8,7 @@ import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/detailed_card_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
+import 'package:rick_morty/widgets/app_title_widget.dart';
 
 class DetailsPage extends StatefulWidget {
   static const routeId = '/details';
@@ -39,9 +41,23 @@ class DetailsPageState extends State<DetailsPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBarWidget(
-            isDetailsPage: true,
-            onTapLeftIcon: () => Navigator.of(context).pop(),
-            onTapRightIcon: () => Void,
+            leftIcon: IconButton(
+              onPressed: () => Navigator.of(context).pop(), 
+              icon: Icon(
+                Icons.arrow_back,
+                color: AppColors.leftIconColor,
+                size: 24,
+              )
+            ),
+            rightIcon: IconButton(
+              onPressed: () => Void,
+              icon: Icon(
+                CupertinoIcons.person_crop_circle,
+                color: AppColors.rightIconColor,
+                size: 24,
+              ),
+            ),
+            titleWidget: AppTitleWidget(),
           ),
 
           SliverToBoxAdapter(
