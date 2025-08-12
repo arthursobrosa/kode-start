@@ -22,9 +22,10 @@ class MyApp extends StatelessWidget {
               builder: (context) => HomePage(),
             );
           case DetailsPage.routeId:
+            int characterId = routeSettings.arguments as int;
             return MaterialPageRoute(
               settings: routeSettings,
-              builder: (context) => DetailsPage(),
+              builder: (context) => DetailsPage(characterId: characterId),
             );
           default:
             return null;
