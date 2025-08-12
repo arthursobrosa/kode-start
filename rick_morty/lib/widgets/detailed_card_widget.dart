@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/card_text_type.dart';
 
 class DetailedCardWidget extends StatelessWidget {
   const DetailedCardWidget({super.key});
@@ -40,11 +41,7 @@ class DetailedCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'baby wizard'.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 14.5,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.textColor
-                        ),
+                        style: CardTextType.title.textSyle,
                       ),
                     ),
                     Padding(
@@ -53,11 +50,7 @@ class DetailedCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'Dead - Alien',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textColor
-                        ),
+                        style: CardTextType.description.textSyle,
                       ),
                     ),
                     Padding(
@@ -66,11 +59,7 @@ class DetailedCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'Last know location:',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.textColor
-                        ),
+                        style: CardTextType.subDescription.textSyle,
                       ),
                     ),
                     Padding(
@@ -79,11 +68,7 @@ class DetailedCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'Earth (Replacement Dimension)',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textColor
-                        ),
+                        style: CardTextType.description.textSyle,
                       ),
                     ),
                     Padding(
@@ -92,11 +77,7 @@ class DetailedCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'First seen in:',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w300,
-                          color: AppColors.textColor
-                        ),
+                        style: CardTextType.subDescription.textSyle,
                       ),
                     ),
                     Padding(
@@ -105,11 +86,7 @@ class DetailedCardWidget extends StatelessWidget {
                       ),
                       child: Text(
                         'Total Rickall',
-                        style: TextStyle(
-                          fontSize: 12.5,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textColor
-                        ),
+                        style: CardTextType.description.textSyle,
                       ),
                     )
                   ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
+import 'package:rick_morty/theme/card_text_type.dart';
 
 class HomeCardWidget extends StatelessWidget {
   const HomeCardWidget({super.key, required this.onTap});
@@ -47,12 +48,7 @@ class HomeCardWidget extends StatelessWidget {
               right: 16,
               child: Text(
                 'baby wizard'.toUpperCase(),
-                style: TextStyle(
-                  color: AppColors.textColor,
-                  fontSize: 14.5,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 0,
-                ),
+                style: CardTextType.title.textSyle,
               ),
             ),
           ],
