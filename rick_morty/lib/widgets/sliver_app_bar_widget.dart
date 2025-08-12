@@ -1,19 +1,20 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/theme/app_colors.dart';
-import 'package:rick_morty/theme/text_type.dart';
 
 class SliverAppBarWidget extends StatelessWidget {
   const SliverAppBarWidget({
     super.key,
-    required this.isDetailsPage,
-    required this.onTapLeftIcon,
-    required this.onTapRightIcon
+    required this.leftIcon,
+    required this.rightIcon,
+    required this.titleWidget
   });
 
-  final bool isDetailsPage;
-  final void Function() onTapLeftIcon;
-  final void Function() onTapRightIcon;
+  final Widget leftIcon;
+  final Widget rightIcon;
+  final Widget titleWidget;
+
+  static double get expandedHeight => 131;
+  static double get toolbarHeight => 50;
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +22,13 @@ class SliverAppBarWidget extends StatelessWidget {
       backgroundColor: AppColors.appBarColor,
       pinned: true,
       stretch: true,
-      expandedHeight: 131,
-      toolbarHeight: 50,
-      leading: IconButton(
-        onPressed: onTapLeftIcon,
-        icon: Icon(
-          isDetailsPage ? Icons.arrow_back : Icons.menu, 
-          color: AppColors.leftIconColor,
-           size: 24
-        )
-      ),
+      expandedHeight: expandedHeight,
+      toolbarHeight: toolbarHeight,
+      leading: leftIcon,
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 16),
-          child: IconButton(
-            onPressed: onTapRightIcon, 
-            icon: Icon(
-              CupertinoIcons.person_crop_circle,
-              color: AppColors.rightIconColor,
-              size: 24,
-            )
-          ),
+          padding: const EdgeInsets.only(right: 6),
+          child: rightIcon,
         ),
       ],
       flexibleSpace: FlexibleSpaceBar(
@@ -49,7 +36,7 @@ class SliverAppBarWidget extends StatelessWidget {
           padding: const EdgeInsets.only(top: 20),
           child: Image.asset('assets/images/logo.png', scale: 3),
         ),
-        title: Text('RICK AND MORTY API', style: TextType.appTitle.textSyle),
+        title: titleWidget,
         stretchModes: const [StretchMode.fadeTitle, StretchMode.blurBackground],
         expandedTitleScale: 1,
       ),
