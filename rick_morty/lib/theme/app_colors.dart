@@ -8,7 +8,7 @@ abstract class AppColors {
       return Color(0xff87A1FA);
     }
 
-    return Color(0xff557AFF);
+    return Color(0xff7A99FF);
   }
 
   static Color secondaryColor(BuildContext context) {
@@ -18,7 +18,7 @@ abstract class AppColors {
       return Color(0xff1C1B1F);
     }
 
-    return Color(0xffE0E0E0);
+    return Color(0xffCFCFCF);
   }
 
   static Color backgroundColor(BuildContext context) {
@@ -48,7 +48,7 @@ abstract class AppColors {
       return Color(0xffE6E1E5);
     }
 
-    return Color(0xffA0A0A5);
+    return Color(0xff757579);
   }
 
   static Color rightIconColor(BuildContext context) {
@@ -58,7 +58,7 @@ abstract class AppColors {
       return Color(0xffCAC4D0);
     }
 
-    return Color(0xff7D7A80);
+    return Color(0xff757579);
   }
 
   static Color baseShimmerColor(BuildContext context) {

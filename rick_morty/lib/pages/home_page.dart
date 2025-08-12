@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import 'package:rick_morty/widgets/characters_list_widget.dart';
 import 'package:rick_morty/widgets/drawer_widget.dart';
 import 'package:rick_morty/widgets/empty_widget.dart';
 import 'package:rick_morty/widgets/filters_widget.dart';
+import 'package:rick_morty/widgets/settings_tile_widget.dart';
 import 'package:rick_morty/widgets/simple_card_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/app_title_widget.dart';
@@ -218,12 +218,8 @@ class _HomePageState extends State<HomePage> {
           endDrawer: DrawerWidget(
             backgroundColor: AppColors.secondaryColor(context),
             items: [
-              ListTile(
-                title: Text(
-                  'Item 1', 
-                  style: TextType.spacedTitle.textSyle(context)
-                ),
-                onTap: () => Void,
+              SettingsTileWidget(
+                textStyle: TextType.spacedTitle.textSyle(context)
               ),
             ],
           ),
@@ -316,10 +312,12 @@ class _HomePageState extends State<HomePage> {
                           backgroundColor: AppColors.backgroundColor(context),
                           cursorColor: AppColors.primaryColor(context),
                           inputStyle: TextType.inputText.textSyle(context),
-                          placeholderStyle: TextType.inputPlaceholder.textSyle(context),
+                          placeholderStyle: TextType.inputPlaceholder.textSyle(
+                            context,
+                          ),
                         )
                       : AppTitleWidget(
-                          textStyle: TextType.spacedTitle.textSyle(context)
+                          textStyle: TextType.spacedTitle.textSyle(context),
                         ),
                 ),
 

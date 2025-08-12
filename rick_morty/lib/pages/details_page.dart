@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rick_morty/models/character_model.dart';
@@ -6,6 +5,7 @@ import 'package:rick_morty/view_models/details_view_model.dart';
 import 'package:rick_morty/theme/app_colors.dart';
 import 'package:rick_morty/theme/text_type.dart';
 import 'package:rick_morty/widgets/drawer_widget.dart';
+import 'package:rick_morty/widgets/settings_tile_widget.dart';
 import 'package:rick_morty/widgets/shimmer_widget.dart';
 import 'package:rick_morty/widgets/sliver_app_bar_widget.dart';
 import 'package:rick_morty/widgets/detailed_character_card_widget.dart';
@@ -42,13 +42,9 @@ class DetailsPageState extends State<DetailsPage> {
           endDrawer: DrawerWidget(
             backgroundColor: AppColors.secondaryColor(context),
             items: [
-              ListTile(
-                title: Text(
-                  'Item 1',
-                  style: TextType.spacedTitle.textSyle(context),
-                ),
-                onTap: () => Void,
-              ),
+              SettingsTileWidget(
+                textStyle: TextType.spacedTitle.textSyle(context)
+              )
             ],
           ),
           body: CustomScrollView(
